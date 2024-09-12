@@ -1,0 +1,87 @@
+# Android related files
+*.iml
+.gradle/
+local.properties
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/gradle.xml
+.idea/misc.xml
+*.apk
+*.ap_
+*.dex
+*.class
+*.so
+*.jar
+*.war
+*.ear
+*.keystore
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+
+# Jetpack Compose Multiplatform specific files
+buildSrc/.gradle/
+buildSrc/build/
+buildSrc/.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Kotlin
+# Ignore all .kts files except build.gradle.kts
+*.kts
+!build.gradle.kts
+!settings.gradle.kts
+*.kt~
+*.kotlin_metadata
+*.class
+*.log
+
+# Dependency directories
+/node_modules/
+/.yarn/
+/.pnp.js
+.pnp.data/
+
+# Maven specific
+.mvn/
+target/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Android/IntelliJ specific cache/log folders
+.idea
+*.log
+.cache
+logs
+tmp/
+
+# Android Studio specific
+.idea/
+.gradle/
+local.properties
+/captures/
+/build/
+
+# Git
+.git/
+
+# Kotlin Multiplatform generated files
+bin/
+
+# Miscellaneous
+*.swp
+*~.nib
+*.nib
+*.orig
+*.rej
