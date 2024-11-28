@@ -44,6 +44,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -61,6 +62,7 @@ import com.translate.ui.composable.components.TextArea
 import com.translate.ui.composable.dashboardOne.DashBoardViewModel
 import com.translate.ui.composable.selection.LanguageSelectionScreen
 import com.translate.utils.Constant
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
@@ -69,8 +71,12 @@ class TranslateScreen(private val history: History? = null) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val factory = rememberPermissionsControllerFactory()
+        val controller = remember(factory) {
+            factory.createPermissionsController()
+        }
 
-        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel() }
+        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(controller) }
         val translateViewModel = rememberScreenModel { TranslateViewModel() }
 
         val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()

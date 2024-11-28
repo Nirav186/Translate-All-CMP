@@ -34,6 +34,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.google.playServices.ads)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -84,6 +85,9 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.encoding)
+
+            api(libs.moko.permissions)
+            api(libs.moko.permissions.compose)
         }
     }
 }

@@ -8,9 +8,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.google.android.gms.ads.MobileAds
 import com.translate.data.networking.TranslationClient
 import com.translate.data.networking.createHttpClient
 import com.translate.database.getTranslateDatabase
+import com.translate.tts.SpeechToTextService
+import com.translate.tts.TextToSpeechService
 import io.ktor.client.engine.okhttp.OkHttp
 
 class MainActivity : ComponentActivity() {
@@ -23,6 +26,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+        MobileAds.initialize(this)
         val dao = getTranslateDatabase(applicationContext).getHistoryDao()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
@@ -33,7 +37,12 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
-            App(dao, client = TranslationClient(createHttpClient(OkHttp.create())))
+            App(
+                historyDao = dao,
+                client = TranslationClient(createHttpClient(OkHttp.create())),
+                textToSpeechService = TextToSpeechService(this),
+                speechToTextService = SpeechToTextService(this)
+            )
         }
     }
 }
