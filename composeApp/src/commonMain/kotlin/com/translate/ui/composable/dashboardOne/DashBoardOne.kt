@@ -6,6 +6,7 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.translate.ui.composable.dictionary.DictionaryScreen
 import com.translate.ui.composable.favorite.FavoriteScreen
 import com.translate.ui.composable.history.HistoryScreen
 import com.translate.ui.composable.idioms.IdiomScreen
@@ -35,6 +36,9 @@ class DashBoardScreen : Screen {
             },
             navigateToFavoriteScreen = {
                 navigator.push(FavoriteScreen())
+            },
+            navigateToDictionaryScreen = {
+                navigator.push(DictionaryScreen())
             }
         )
     }

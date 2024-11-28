@@ -72,6 +72,7 @@ fun DashBoardContent(
     navigateToHistoryScreen: () -> Unit,
     navigateToIdiomsListScreen: () -> Unit,
     navigateToFavoriteScreen: () -> Unit,
+    navigateToDictionaryScreen: () -> Unit,
 ) {
     val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
     val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
@@ -186,7 +187,7 @@ fun DashBoardContent(
                     bgColor = Color(0xFFe4f2ed),
                     textColor = Color(0xFF32574a),
                     title = "Dictionary\n",
-                    onClick = {}
+                    onClick = { navigateToDictionaryScreen() }
                 )
                 DashBoardPageItem2(
                     modifier = Modifier.weight(1f),
