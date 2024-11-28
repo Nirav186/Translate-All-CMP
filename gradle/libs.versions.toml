@@ -11,11 +11,18 @@ androidx-espresso-core = "3.6.1"
 androidx-lifecycle = "2.8.0"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
+cmptoast = "1.0.0"
 compose-plugin = "1.6.11"
 junit = "4.13.2"
 kotlin = "2.0.20"
+kotlinxCoroutinesCore = "1.8.1"
+kotlinxDatetime = "0.6.1"
+kotlinxSerializationJson = "1.7.1"
+multiplatformSettingsNoArg = "1.0.0"
+mvvmCore = "0.16.1"
 room = "2.7.0-alpha07"
 ksp = "2.0.20-RC-1.0.24"
+sdpSspComposeMultiplatform = "1.0.4"
 sqlite = "2.5.0-SNAPSHOT"
 
 #Navigation
@@ -23,7 +30,11 @@ navigationCompose = "2.8.0-rc01"
 
 voyager = "1.1.0-beta02"
 
+ktor-client = "2.3.11"
+lifecycleViewModel = "2.8.0-rc01"
+
 [libraries]
+cmptoast = { module = "network.chaintech:cmptoast", version.ref = "cmptoast" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -36,9 +47,17 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettingsNoArg" }
+multiplatform-settings-no-arg = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettingsNoArg" }
+multiplatform-settings-serialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "multiplatformSettingsNoArg" }
+mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "mvvmCore" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 #androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+sdp-ssp-compose-multiplatform = { module = "network.chaintech:sdp-ssp-compose-multiplatform", version.ref = "sdpSspComposeMultiplatform" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
@@ -48,6 +67,16 @@ voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voy
 voyager-hilt = { module = "cafe.adriel.voyager:voyager-hilt", version.ref = "voyager" }
 voyager-kodein = { module = "cafe.adriel.voyager:voyager-kodein", version.ref = "voyager" }
 voyager-rxjava = { module = "cafe.adriel.voyager:voyager-rxjava", version.ref = "voyager" }
+
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-client" }
+ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor-client" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor-client" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor-client" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor-client" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-client" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor-client" }
+
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycleViewModel"}
 
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
