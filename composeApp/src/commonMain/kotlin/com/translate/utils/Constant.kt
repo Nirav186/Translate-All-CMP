@@ -4760,11 +4760,9 @@ fun String.getDrawableByName(): DrawableResource? {
         "bhojpuri" -> Res.drawable.bhojpuri
         "bosnia" -> Res.drawable.bosnia
         "bulgaria" -> Res.drawable.bulgaria
-        "myanmar" -> Res.drawable.myanmar
         "catalan" -> Res.drawable.catalan
         "cebuano" -> Res.drawable.cebuano
         "chichewa" -> Res.drawable.chichewa
-        "chinese" -> Res.drawable.chinese
         "chinese" -> Res.drawable.chinese
         "corsican" -> Res.drawable.corsican
         "croatian" -> Res.drawable.croatian
