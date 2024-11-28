@@ -19,8 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.CopyAll
-import androidx.compose.material.icons.filled.CropFree
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
@@ -47,6 +46,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -65,7 +66,9 @@ import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 
-class TranslateScreen(private val history: History? = null) : Screen {
+class TranslateScreen(
+    private val history: History? = null
+) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -103,6 +106,8 @@ fun TranslateScreenContent(
     translateViewModel: TranslateViewModel
 ) {
     val historyLocal by translateViewModel.history.collectAsState()
+    LocalClipboardManager.current
+    val clipboardManager = LocalClipboardManager.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -338,15 +343,10 @@ fun TranslateScreenContent(
                             horizontalArrangement = Arrangement.End
                         ) {
                             IconButton(onClick = {
-                                //todo:nirav set clipboard for cmp
-//                                clipboardManager.setClip(
-//                                    ClipEntry(
-//                                        ClipData.newPlainText("", history.translateText)
-//                                    )
-//                                )
+                                clipboardManager.setText(AnnotatedString(text = historyLocal.translateText))
                             }) {
                                 Icon(
-                                    imageVector = Icons.Filled.CopyAll,
+                                    imageVector = Icons.Filled.ContentCopy,
                                     contentDescription = "copy all"
                                 )
                             }
@@ -357,12 +357,12 @@ fun TranslateScreenContent(
                                 Icon(imageVector = Icons.Filled.Share, contentDescription = "share")
                             }
                             Spacer(modifier = Modifier.height(5.sdp))
-                            IconButton(onClick = { /* todo  expand */ }) {
+                            /*         IconButton(onClick = {  }) {
                                 Icon(
                                     imageVector = Icons.Filled.CropFree,
                                     contentDescription = "Expand"
                                 )
-                            }
+                            }*/
                         }
                     }
                 }

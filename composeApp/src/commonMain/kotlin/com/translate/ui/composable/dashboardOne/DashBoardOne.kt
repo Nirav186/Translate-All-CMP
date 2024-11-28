@@ -10,6 +10,7 @@ import com.translate.ui.composable.dictionary.DictionaryScreen
 import com.translate.ui.composable.favorite.FavoriteScreen
 import com.translate.ui.composable.history.HistoryScreen
 import com.translate.ui.composable.idioms.IdiomScreen
+import com.translate.ui.composable.quotes.QuotesScreen
 import com.translate.ui.composable.selection.LanguageSelectionScreen
 import com.translate.ui.composable.translate.TranslateScreen
 
@@ -39,6 +40,9 @@ class DashBoardScreen : Screen {
             },
             navigateToDictionaryScreen = {
                 navigator.push(DictionaryScreen())
+            },
+            navigateToQuotesScreen = {
+                navigator.push(QuotesScreen())
             }
         )
     }

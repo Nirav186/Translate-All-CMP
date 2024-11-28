@@ -73,6 +73,7 @@ fun DashBoardContent(
     navigateToIdiomsListScreen: () -> Unit,
     navigateToFavoriteScreen: () -> Unit,
     navigateToDictionaryScreen: () -> Unit,
+    navigateToQuotesScreen: () -> Unit,
 ) {
     val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
     val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
@@ -206,7 +207,9 @@ fun DashBoardContent(
                     bgColor = Color(0x19d28eea),
                     textColor = Color(0xFF6f557a),
                     title = "Quote",
-                    onClick = {}
+                    onClick = {
+                        navigateToQuotesScreen()
+                    }
                 )
                 DashBoardPageItem1(
                     startImg = Res.drawable.icn_idioms,

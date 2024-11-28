@@ -6,8 +6,10 @@ import com.translate.data.networking.DictionaryClient
 import com.translate.data.networking.TranslationClient
 import org.jetbrains.compose.resources.DrawableResource
 import translate.composeapp.generated.resources.Res
+import translate.composeapp.generated.resources.abrahamlincoln
 import translate.composeapp.generated.resources.afrikaans
 import translate.composeapp.generated.resources.albanian
+import translate.composeapp.generated.resources.alberteinstein
 import translate.composeapp.generated.resources.amharic
 import translate.composeapp.generated.resources.arabic
 import translate.composeapp.generated.resources.armenia
@@ -20,6 +22,7 @@ import translate.composeapp.generated.resources.belarusian
 import translate.composeapp.generated.resources.bengali
 import translate.composeapp.generated.resources.bhojpuri
 import translate.composeapp.generated.resources.bosnia
+import translate.composeapp.generated.resources.brucelee
 import translate.composeapp.generated.resources.bulgaria
 import translate.composeapp.generated.resources.catalan
 import translate.composeapp.generated.resources.cebuano
@@ -28,28 +31,34 @@ import translate.composeapp.generated.resources.chinese
 import translate.composeapp.generated.resources.corsican
 import translate.composeapp.generated.resources.croatian
 import translate.composeapp.generated.resources.czech
+import translate.composeapp.generated.resources.dalailama
 import translate.composeapp.generated.resources.danish
 import translate.composeapp.generated.resources.dari_persian
 import translate.composeapp.generated.resources.dhivehi
 import translate.composeapp.generated.resources.dogri
 import translate.composeapp.generated.resources.dutch
+import translate.composeapp.generated.resources.eleanorroosevelt
+import translate.composeapp.generated.resources.elonmusk
 import translate.composeapp.generated.resources.english
 import translate.composeapp.generated.resources.esperanto
 import translate.composeapp.generated.resources.estonian
 import translate.composeapp.generated.resources.ewe
 import translate.composeapp.generated.resources.filipino
 import translate.composeapp.generated.resources.finnish
+import translate.composeapp.generated.resources.florencenightingale
 import translate.composeapp.generated.resources.french
 import translate.composeapp.generated.resources.frisian
 import translate.composeapp.generated.resources.galician
 import translate.composeapp.generated.resources.georgia
 import translate.composeapp.generated.resources.german
+import translate.composeapp.generated.resources.grayfarrah
 import translate.composeapp.generated.resources.greek
 import translate.composeapp.generated.resources.gujarati
 import translate.composeapp.generated.resources.haitian
 import translate.composeapp.generated.resources.hausa
 import translate.composeapp.generated.resources.hawaiian
 import translate.composeapp.generated.resources.hebrew
+import translate.composeapp.generated.resources.henryford
 import translate.composeapp.generated.resources.hindi
 import translate.composeapp.generated.resources.hmong
 import translate.composeapp.generated.resources.hungary
@@ -72,25 +81,36 @@ import translate.composeapp.generated.resources.kyrgyz
 import translate.composeapp.generated.resources.lao
 import translate.composeapp.generated.resources.latin
 import translate.composeapp.generated.resources.latvian
+import translate.composeapp.generated.resources.levtolstoy
 import translate.composeapp.generated.resources.lingala
 import translate.composeapp.generated.resources.lithuanian
 import translate.composeapp.generated.resources.luxembourgish
+import translate.composeapp.generated.resources.mahatmaghandi
 import translate.composeapp.generated.resources.maithili
 import translate.composeapp.generated.resources.malagasy
 import translate.composeapp.generated.resources.malay
 import translate.composeapp.generated.resources.malayalam
+import translate.composeapp.generated.resources.malijinnah
 import translate.composeapp.generated.resources.maltese
 import translate.composeapp.generated.resources.maori
 import translate.composeapp.generated.resources.marathi
+import translate.composeapp.generated.resources.marktwain
+import translate.composeapp.generated.resources.mayaangelou
+import translate.composeapp.generated.resources.michaelkingjr
 import translate.composeapp.generated.resources.mongolian
+import translate.composeapp.generated.resources.motherteresa
 import translate.composeapp.generated.resources.myanmar
+import translate.composeapp.generated.resources.nelsonmandela
 import translate.composeapp.generated.resources.nepali
 import translate.composeapp.generated.resources.northmacedonia
 import translate.composeapp.generated.resources.norwegian
 import translate.composeapp.generated.resources.nyanja
 import translate.composeapp.generated.resources.odia
+import translate.composeapp.generated.resources.oprahwinfrey
 import translate.composeapp.generated.resources.oromo
+import translate.composeapp.generated.resources.pablopicasso
 import translate.composeapp.generated.resources.pashto
+import translate.composeapp.generated.resources.paulwalker
 import translate.composeapp.generated.resources.persian
 import translate.composeapp.generated.resources.polish
 import translate.composeapp.generated.resources.portuguese
@@ -111,6 +131,7 @@ import translate.composeapp.generated.resources.slovak
 import translate.composeapp.generated.resources.slovenia
 import translate.composeapp.generated.resources.somali
 import translate.composeapp.generated.resources.spanish
+import translate.composeapp.generated.resources.stevejobs
 import translate.composeapp.generated.resources.sundanese
 import translate.composeapp.generated.resources.swahili
 import translate.composeapp.generated.resources.sweden
@@ -128,7 +149,11 @@ import translate.composeapp.generated.resources.urdu
 import translate.composeapp.generated.resources.uyghur
 import translate.composeapp.generated.resources.uzbek
 import translate.composeapp.generated.resources.vietnam
+import translate.composeapp.generated.resources.vincentvangog
+import translate.composeapp.generated.resources.waltdisney
+import translate.composeapp.generated.resources.waltwhitman
 import translate.composeapp.generated.resources.welsh
+import translate.composeapp.generated.resources.williamshakespeare
 import translate.composeapp.generated.resources.xhosa
 import translate.composeapp.generated.resources.yiddish
 import translate.composeapp.generated.resources.yoyuba
@@ -4850,4 +4875,436 @@ fun String.getDrawableByName(): DrawableResource? {
         "zulu" -> Res.drawable.zulu
         else -> null
     }
+}
+
+fun getQuotesJson() = """
+    [
+      {
+        "name": "Albert Einstein",
+        "dates": "14 Mar 1879 - 18 Apr 1955",
+        "quotes": [
+          "I have no special talent. I am only passionately curious.",
+          "Imagination is more important than knowledge.Knowledge is limited.Imagination encircles the world.",
+          "All religions, arts and sciences are branches of the same tree.",
+          "I speak to everyone in the same way, whether he is the garbage man or the president of the university.",
+          "The great moral teachers of humanity were, in a way, artistic geniuses in the art of living.",
+          "Imagination is the highest form of research.",
+          "If you want your children to be intelligent, read them fairy tales. If you want them to be more intelligent, read them more fairy tales.",
+          "The search for truth is more precious than its possession.",
+          "Intellectuals solve problems, geniuses prevent them.",
+          "Coincidence is God's way of remaining anonymous."
+        ]
+      },
+      {
+        "name": "William Shakespeare",
+        "dates": "26 Apr 1564 - 23 Apr 1616",
+        "quotes": [
+          "God has given you one face, and you make yourself another.",
+          "It is not in the stars to hold our destiny but in ourselves.",
+          "Ignorance is the curse of God, knowledge is the wing wherewith we fly to heaven.",
+          "Better three hours too soon than a minute too late.",
+          "Listen to many, speak to a few.",
+          "Women may fall when there’s no strength in men.",
+          "There is nothing either good or bad, but thinking makes it so.",
+          "Hell is empty and all the devils are here.",
+          "We know what we are, but not what we may be.",
+          "You speak an infinite deal of nothing."
+        ]
+      },
+      {
+        "name": "Mother Teresa",
+        "dates": "26 Aug 1910 - 5 Sep 1997",
+        "quotes": [
+          "If you judge people, you have no time to love them.",
+          "If you can’t feed a hundred people, then feed just one.",
+          "Love begins at home, and it is not how much we do… but how much love we put in that action.",
+          "Yesterday is gone. Tomorrow has not yet come. We have only today. Let us begin.",
+          "Kind words can be short and easy to speak, but their echoes are truly endless.",
+          "If we really want to love, we must learn how to forgive.",
+          "Every time you smile at someone, it is an action of love, a gift to that person, a beautiful thing.",
+          "The most terrible poverty is loneliness, and the feeling of being unloved.",
+          "What can you do to promote world peace? Go home and love your family."
+        ]
+      },
+      {
+        "name": "Steve Jobs",
+        "dates": "24 Feb 1955 - 5 Oct 2011",
+        "quotes": [
+          "Sometimes life is going to hit you in the head with a brick. Don’t lose faith.",
+          "Sometimes when you innovate, you make mistakes. It is best to admit them quickly and get on with improving your other innovations.",
+          "Innovation distinguishes between a leader and a follower.",
+          "I think if you do something and it turns out pretty good, then you should go do something else wonderful, not dwell on it for too long. Just figure out what’s next.",
+          "Quality is more important than quantity. One home run is much better than two doubles.",
+          "The people who are crazy enough to think they can change the world are the ones who do.",
+          "Details matter, it’s worth waiting to get it right.",
+          "Get closer than ever to your customers. So close that you tell them what they need well before they realize it themselves.",
+          "You have to believe that the dots will somehow connect in your future.",
+          "If you don’t love it, you’re going to fail."
+        ]
+      },
+      {
+        "name": "Bruce Lee",
+        "dates": "27 Nov 1940 - 20Jul 1973",
+        "quotes": [
+          "If you spend too much time thinking about a thing, you’ll never get it done.",
+          "Do not pray for an easy life, pray for the strength to endure a difficult one.",
+          "Mistakes are always forgivable, if one has the courage to admit them.",
+          "Real living is living for others.",
+          "Showing off is the fool’s idea of glory.",
+          "Defeat is a state of mind, No one is ever defeated until defeat has been accepted as a reality.",
+          "Never waste energy on worries or negative thoughts, all problems are brought into existence– drop them.",
+          "A wise man can learn more from a foolish question than a fool can learn from a wise answer.",
+          "Always be yourself, express yourself, have faith in yourself, do not go out and look for a successful personality and duplicate it.",
+          "If you don’t want to slip up tomorrow, speak the truth today."
+        ]
+      },
+      {
+        "name": "Nelson Mandela",
+        "dates": "18 Jul 1918 - 5 Dec 2013",
+        "quotes": [
+          "Real leaders must be ready to sacrifice all for the freedom of their people.",
+          "Education is the most powerful weapon which you can use to change the world.",
+          "Do not judge me by my successes, judge me by how many times I fell down and got back up again.",
+          "Money won't create success, the freedom to make it will.",
+          "I am the master of my fate: I am the captain of my soul.",
+          "A winner is a dreamer who never gives up.",
+          "Live life as though nobody is watching, and express yourself as though everyone is listening.",
+          "One of the most difficult things is not to change society — but to change yourself.",
+          "If you want to make peace with your enemy, you have to work with your enemy. Then he becomes your partner.",
+          "It always seems impossible until it’s done."
+        ]
+      },
+      {
+        "name": "Muhammad Ali Jinnah",
+        "dates": "25 Dec 1876 - 11 Sep 1948",
+        "quotes": [
+          "Failure is a word unknown to me.",
+          "Expect the best, prepare for the worst.",
+          "I do not believe in taking the right decision, I take a decision and make it right.",
+          "No nation can rise to the height of glory unless your women are side by side with you.",
+          "Think a hundred times before you take a decision, but once that decision is taken, stand by it as one man.",
+          "I insist you to strive. Work, Work and only work for satisfaction with patience, humbleness and serve thy nation.",
+          "There is no power on earth that can undo Pakistan.",
+          "That freedom can never be attained by a nation without suffering and sacrifice has been amply borne out by the recent tragic happenings in this subcontinent.",
+          "Religion should not be allowed to come into Politics…Religion is merely a matter between man and God."
+        ]
+      },
+      {
+        "name": "Mahatma Gandhi",
+        "dates": "2 Oct 1869 - 30 Jan 1948",
+        "quotes": [
+          "A man is but a product of his thoughts. What he thinks he becomes.",
+          "Nobody can hurt me without my permission.",
+          "Happiness is when what you think, what you say, and what you do are in harmony.",
+          "The weak can never forgive. Forgiveness is an attribute of the strong.",
+          "Live as if you were to die tomorrow. Learn as if you were to live forever.",
+          "The future depends on what you do today.",
+          "It’s easy to stand in the crowd but it takes courage to stand alone.",
+          "Strength does not come from physical capacity. It comes from an indomitable will.",
+          "We need not wait to see what others do.",
+          "The best way to find yourself is to lose yourself in the service of others."
+        ]
+      },
+      {
+        "name": "Martin Luther King Jr.",
+        "dates": "15 Jan 1929 - 4 Apr 1968",
+        "quotes": [
+          "If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you have to keep moving forward.",
+          "A man who won't die for something is not fit to live.",
+          "No person has the right to rain on your dreams.",
+          "Intelligence plus character--that is the goal of true education.",
+          "Nothing in the world is more dangerous than sincere ignorance and conscientious stupidity.",
+          "There comes a time when silence is betrayal.",
+          "We must use time creatively, in the knowledge that the time is always ripe to do right.",
+          "A lie cannot live.",
+          "There can be no deep disappointment where there is not deep love.",
+          "It is not enough to say we must not wage war. It is necessary to love peace and sacrifice for it."
+        ]
+      },
+      {
+        "name": "Abraham Lincoln",
+        "dates": "12 Frb 1809 - 15 Apr 1865",
+        "quotes": [
+          "Whatever you are, be a good one.",
+          "I am a slow walker, but I never walk back.",
+          "The best way to predict your future is to create it.",
+          "I have always found that mercy bears richer fruits than strict justice.",
+          "When I do good, I feel good. When I do bad, I feel bad. That’s my religion.",
+          "All I have learned, I learned from books.",
+          "Love is the chain to lock a child to its parent.",
+          "No man has a good enough memory to be a successful liar.",
+          "If I were two-faced, would I be wearing this one?",
+          "Folks are usually about as happy as they make their minds up to be."
+        ]
+      },
+      {
+        "name": "Pablo Picasso",
+        "dates": "25 Oct 1881 - 8 Apr 1973",
+        "quotes": [
+          "Every child is an artist. The problem is to remain an artist once they grow up.",
+          "It takes a long time to become young.",
+          "Action is the foundational key to all success.",
+          "Everything is a miracle. It is a miracle that one does not dissolve in one’s bath like a lump of sugar.",
+          "Inspiration exists, but it has to find you working.",
+          "Every act of creation is first an act of destruction.",
+          "Youth has no age.",
+          "Bad artists copy. Good artists steal.",
+          "If only we could pull out our brain and use only our eyes."
+        ]
+      },
+      {
+        "name": "Walt Disney",
+        "dates": "5 Dec 1901 - 15 Dec 1966",
+        "quotes": [
+          "All our dreams can come true, if we have the courage to pursue them.",
+          "When you’re curious, you find lots of interesting things to do.",
+          "A man should never neglect his family for business.",
+          "Our greatest natural resource is the minds of our children.",
+          "Why worry? If you’ve done the very best you can, then worrying won’t make it any better.",
+          "First, think. Second, dream. Third, believe. And finally, dare.",
+          "Laughter is America’s most important export.",
+          "Fantasy and reality often overlap.",
+          "You reach a point where you don’t work for money.",
+          "The way to get started is to quit talking and begin doing."
+        ]
+      },
+      {
+        "name": "Elon Musk",
+        "dates": "28 Jun 1971 - Present",
+        "quotes": [
+          "If you get up in the morning and think the future is going to be better, it is a bright day. Otherwise, it's not.",
+          "I think it is possible for ordinary people to choose to be extraordinary.",
+          "Failure is an option here. If things are not failing, you are not innovating enough.",
+          "Patience is a virtue, and I’m learning patience. It’s a tough lesson.",
+          "If something’s important enough, you should try. Even if the probable outcome is failure.",
+          "When I was in college, I wanted to be involved in things that would change the world. Now I am.",
+          "I don’t create companies for the sake of creating companies, but to get things done.",
+          "Being an entrepreneur is like eating glass and staring into the abyss of death.",
+          "I don’t think it’s a good idea to plan to sell a company.",
+          "Persistence is very important. You should not give up unless you are forced to give up."
+        ]
+      },
+      {
+        "name": "Florence Nightingale",
+        "dates": "12 May 1820 - 13 Aug 1910",
+        "quotes": [
+          "There is no part of my life, upon which I can look back without pain.",
+          "Everything is sketchy. The world does nothing but sketch.",
+          "That Religion is not devotion, but work and suffering for the love of God, this is the true doctrine of Mystics.",
+          "For the sick it is important to have the best.",
+          "How very little can be done under the spirit of fear.",
+          "So never lose an opportunity of urging a practical beginning, however small, for it is wonderful how often in such matters the mustard-seed germinates and roots itself.",
+          "I attribute my success to this – I never gave or took any excuse.",
+          "Let us never consider ourselves finished nurses. We must be learning all of our lives.",
+          "Nursing is a progressive art such that to stand still is to go backwards."
+        ]
+      },
+      {
+        "name": "Mark Twain",
+        "dates": "30 Nov 1835 - 21 Apr 1910",
+        "quotes": [
+          "If you tell the truth, you don’t have to remember anything.",
+          "Whenever you find yourself on the side of the majority, it is time to reform (or pause and reflect).",
+          "A lie can travel half way around the world while the truth is putting on its shoes.",
+          "Never allow someone to be your priority while allowing yourself to be their option.",
+          "Always do what is right. It will gratify half of mankind and astound the other.",
+          "The two most important days in your life are the day you are born and the day you find out why.",
+          "Better to keep your mouth shut and appear stupid than to open it and remove all doubt.",
+          "Good friends, good books, and a sleepy conscience: this is the ideal life.",
+          "Kindness is the language which the deaf can hear and the blind can see.",
+          "Always obey your parents when they are present."
+        ]
+      },
+      {
+        "name": "Maya Angelou",
+        "dates": "4 Apr 1928 - 28 May 2014",
+        "quotes": [
+          "If you don’t like something, change it. If you can’t change it, change your attitude.",
+          "We may encounter many defeats but we must not be defeated.",
+          "A wise woman wishes to be no one’s enemy, a wise woman refuses to be anyone’s victim.",
+          "All great achievements require time.",
+          "I believe that every person is born with talent.",
+          "I believe that each of us comes from the Creator trailing wisps of glory.",
+          "It's one of the greatest gifts you can give yourself: to forgive. Forgive everybody.",
+          "People will forget what you said, people will forget what you did, but people will never forget how you made them feel.",
+          "Do the best you can until you know better. Then when you know better, do better.",
+          "Try to be a rainbow in someone’s cloud."
+        ]
+      },
+      {
+        "name": "Paul Walker",
+        "dates": "12 Sep 1973 - 30 Nov 2013",
+        "quotes": [
+          "My philosophy is: If you can’t have fun, there’s no sense in doing it.",
+          "I like a woman that’s capable and at the same time feminine. I admire tomboy qualities but with a feminine touch.",
+          "There’s a time and place for everything, but as I get older, I like finding those human moments and really connecting.",
+          "I’m one of those people that think certain things happen at certain times for all the right reasons.",
+          "Sometimes the hurdles aren’t really hurdles at all. They’re welcome challenges, tests.",
+          "I don’t care what it is in life: listen to your heart. If you do, no matter what, you win.",
+          "I'm a crazy car guy. I've got an airplane hangar full of cars.",
+          "I'm not afraid of anything. That's just the way I am.",
+          "If you spend any time with a man, you'll realize that we're all still little boys.",
+          "The whole thought of being a dad was scary to me."
+        ]
+      },
+      {
+        "name": "Vincent Van Gogh",
+        "dates": "30 Mar 1853 - 29 Jul 1890",
+        "quotes": [
+          "I put my heart and my soul into my work, and have lost my mind in the process.",
+          "I am still far from being what I want to be, but with God's help I shall succeed.",
+          "Painting is a faith, and it imposes the duty to disregard public opinion.",
+          "The best way to know God is to love many things.",
+          "If you hear a voice within you say you cannot paint, then by all means paint, and that voice will be silenced.",
+          "I often think that the night is more alive and more richly colored than the day.",
+          "Drawing is the root of everything, and the time spent on that is actually all profit.",
+          "I dream of painting and then I paint my dream.",
+          "There is no blue without yellow and without orange.",
+          "Great things are not done by impulse, but by a series of small things brought together."
+        ]
+      },
+      {
+        "name": "Leo Tolstoy",
+        "dates": "28 Aug 1828 - 20 Nov 1910",
+        "quotes": [
+          "Wrong does not cease to be wrong because the majority share in it.",
+          "Truth, like gold, is to be obtained not by its growth, but by washing away from it all that is not gold.",
+          "Everyone thinks of changing the world, but no one thinks of changing himself.",
+          "Respect was invented to cover the empty place where love should be.",
+          "It is amazing how complete is the delusion that beauty is goodness.",
+          "If you look for perfection, you’ll never be content.",
+          "All, everything that I understand, I understand only because I love.",
+          "The only thing that we know is that we know nothing and that is the highest flight of human wisdom.",
+          "The sole meaning of life is to serve humanity.",
+          "A truly wise man is always joyful."
+        ]
+      },
+      {
+        "name": "Walt Whitman",
+        "dates": "31 May 1819 - 26 Mar 1892",
+        "quotes": [
+          "Simplicity is the glory of expression.",
+          "Happiness, not in another place but this place…not for another hour, but this hour.",
+          "Peace is always beautiful.",
+          "The future is no more uncertain than the present.",
+          "Every hour of every day is an unspeakably perfect miracle.",
+          "All beauty comes from beautiful blood and a beautiful brain.",
+          "Keep your face always toward the sunshine - and shadows will fall behind you.",
+          "Either define the moment or the moment will define you.",
+          "The truth is simple. If it was complicated, everyone would understand it.",
+          "Be curious, not judgmental."
+        ]
+      },
+      {
+        "name": "Eleanor Roosevelt",
+        "dates": "11 Oct 1884 - 7 Nov 1962",
+        "quotes": [
+          "People grow through experience if they meet life honestly and courageously.",
+          "Great minds discuss ideas, average minds discuss events, small minds discuss people.",
+          "It is better to light a candle than curse the darkness.",
+          "Friendship with one’s self is all important, because without it one can not be friends with anyone else in the world.",
+          "A woman is like a tea bag, you never know how strong it is until it’s in hot water.",
+          "No one can make you feel inferior without your consent.",
+          "Tomorrow is a mystery. Today is a gift. That is why it is called the present.",
+          "Life is what you make it. Always has been, always will be.",
+          "Character building begins in our infancy and continues until death.",
+          "Nothing has ever been achieved by the person who says, ‘It can’t be done.'"
+        ]
+      },
+      {
+        "name": "Dalai Lama",
+        "dates": "6 Jul 1935 - Present",
+        "quotes": [
+          "If you think you are too small to make a difference, try sleeping with a mosquito.",
+          "Happiness is not something ready made. It comes from your own actions.",
+          "Love is the absence of judgement.",
+          "Silence is sometimes the best answer.",
+          "Know the rules well, so you can break them effectively.",
+          "Choose to be optimistic, it feels better.",
+          "An open heart is an open mind.",
+          "We can never obtain peace in the outer world until we make peace with ourselves.",
+          "An eye for an eye….we are all blind.",
+          "In our struggle for freedom, truth is the only weapon we possess."
+        ]
+      },
+      {
+        "name": "Oprah Winfrey",
+        "dates": "29 Jan 1954 - Present",
+        "quotes": [
+          "When you undervalue what you do, the world will undervalue who you are.",
+          "Doing the best at this moment puts you in the best place for the next moment.",
+          "Turn your wounds into wisdom.",
+          "You can have it all. Just not all at once.",
+          "Real integrity is doing the right thing, knowing that nobody’s going to know whether you did it or not.",
+          "One of the hardest things in life to learn are which bridges to cross and which bridges to burn.",
+          "Create the highest, grandest vision possible for your life, because you become what you believe.",
+          "If you are still breathing, you have a second chance.",
+          "The miracle of your existence calls for celebration every day.",
+          "The greatest lesson of life is that you are responsible for your life."
+        ]
+      },
+      {
+        "name": "Henry Ford",
+        "dates": "30 Jul 1863 - 7 Apr 1947",
+        "quotes": [
+          "Whether you think you can, or you think you can’t–you’re right.",
+          "Anyone who stops learning is old, whether at twenty or eighty. Anyone who keeps learning stays young.",
+          "You can’t build a reputation on what you are going to do.",
+          "Failure is only the opportunity more intelligently to begin again.",
+          "Don’t find fault, find a remedy, anybody can complain.",
+          "The only real mistake is the one from which we learn nothing.",
+          "You don’t have to hold a position in order to be a leader.",
+          "Quality means doing it right when no one is looking.",
+          "As we advance in life we learn the limits of our abilities.",
+          "If I had asked people what they wanted, they would have said ‘faster horses."
+        ]
+      },
+      {
+        "name": "Farrah Gray",
+        "dates": "9 Sep 1984 - Present",
+        "quotes": [
+          "Never duck responsibility, its like running from the rain only to fall into the river.",
+          "The more we give, the more we receive. It's important to give back, because the seeds you plant today, you will harvest tomorrow.",
+          "Money doesn't change who you are, it magnifies who you really are.",
+          "Always define your area of excellence. Establish the area where you will be the best.",
+          "Comfort is the enemy of achievement.",
+          "Keep putting out good. It will come back to you tenfold in unexpected ways.",
+          "Build your own dreams, or someone else will hire you to build theirs.",
+          "A goal is a dream with a deadline.",
+          "Don’t be pushed by your problems. Be led by your dreams.",
+          "It's the possibility of having a dream come true that makes life interesting."
+        ]
+      }
+    ]
+""".trimIndent()
+
+fun getQuoteIcon(key: String): DrawableResource? {
+    val map = hashMapOf(
+        "Albert Einstein" to Res.drawable.alberteinstein,
+        "William Shakespeare" to Res.drawable.williamshakespeare,
+        "Mother Teresa" to Res.drawable.motherteresa,
+        "Steve Jobs" to Res.drawable.stevejobs,
+        "Bruce Lee" to Res.drawable.brucelee,
+        "Nelson Mandela" to Res.drawable.nelsonmandela,
+        "Muhammad Ali Jinnah" to Res.drawable.malijinnah,
+        "Mahatma Gandhi" to Res.drawable.mahatmaghandi,
+        "Martin Luther King Jr." to Res.drawable.michaelkingjr,
+        "Abraham Lincoln" to Res.drawable.abrahamlincoln,
+        "Pablo Picasso" to Res.drawable.pablopicasso,
+        "Walt Disney" to Res.drawable.waltdisney,
+        "Elon Musk" to Res.drawable.elonmusk,
+        "Florence Nightingale" to Res.drawable.florencenightingale,
+        "Mark Twain" to Res.drawable.marktwain,
+        "Maya Angelou" to Res.drawable.mayaangelou,
+        "Paul Walker" to Res.drawable.paulwalker,
+        "Vincent Van Gogh" to Res.drawable.vincentvangog,
+        "Leo Tolstoy" to Res.drawable.levtolstoy,
+        "Walt Whitman" to Res.drawable.waltwhitman,
+        "Eleanor Roosevelt" to Res.drawable.eleanorroosevelt,
+        "Dalai Lama" to Res.drawable.dalailama,
+        "Oprah Winfrey" to Res.drawable.oprahwinfrey,
+        "Henry Ford" to Res.drawable.henryford,
+        "Farrah Gray" to Res.drawable.grayfarrah,
+    )
+    return map[key]
 }

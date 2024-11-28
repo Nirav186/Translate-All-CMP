@@ -30,7 +30,7 @@ fun DictionaryResponseCard(
 
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(12.sdp),
+        shape = RoundedCornerShape(8.sdp),
         shadowElevation = 2.sdp,
         tonalElevation = 0.dp,
         color = Color.White
@@ -115,7 +115,7 @@ fun MeaningItems(
 ) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(12.sdp),
+        shape = RoundedCornerShape(8.sdp),
         shadowElevation = 2.sdp,
         tonalElevation = 0.dp,
         color = Color.White
@@ -147,7 +147,6 @@ fun MeaningItems(
                                 append("\"\n")
                             }
 
-                            // Example in bold
                             it.example?.let { example ->
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                     append("Ex: ")
@@ -156,7 +155,6 @@ fun MeaningItems(
                                 append("\n\n")
                             }
 
-                            // Synonyms
                             if (!it.synonyms.isNullOrEmpty()) {
                                 append("Synonyms: \n")
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {
@@ -165,7 +163,6 @@ fun MeaningItems(
                                 append("\n")
                             }
 
-                            // Antonyms
                             if (!it.antonyms.isNullOrEmpty()) {
                                 append("Antonyms: \n")
                                 withStyle(style = SpanStyle(fontWeight = FontWeight.Normal)) {

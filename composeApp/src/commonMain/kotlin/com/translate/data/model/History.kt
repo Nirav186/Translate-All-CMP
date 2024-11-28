@@ -27,6 +27,9 @@ data class History(
         return dateTime.toString()  // Customize this as needed, e.g., format to "yyyy-MM-dd HH:mm"
     }
 
-    fun empty() = History(id = 0, fromLang = "", toLang = "", originalText = "", translateText = "")
+    companion object {
+        fun empty() =
+            History(id = 0, fromLang = "", toLang = "", originalText = "", translateText = "")
+    }
 }
 

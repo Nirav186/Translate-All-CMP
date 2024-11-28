@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -12,6 +13,7 @@ plugins {
 
 kotlin {
     androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -78,6 +80,8 @@ kotlin {
             implementation(libs.sqlite.bundled)
 
             implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+            implementation("io.coil-kt.coil3:coil-compose:3.0.4")
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
