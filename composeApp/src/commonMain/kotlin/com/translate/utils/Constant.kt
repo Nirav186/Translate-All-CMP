@@ -2,6 +2,7 @@ package com.translate.utils
 
 import com.translate.data.local.HistoryDao
 import com.translate.data.model.Language
+import com.translate.data.networking.DictionaryClient
 import com.translate.data.networking.TranslationClient
 import org.jetbrains.compose.resources.DrawableResource
 import translate.composeapp.generated.resources.Res
@@ -4712,7 +4713,8 @@ object Constant {
     """.trimIndent()
 
     lateinit var historyDao: HistoryDao
-    lateinit var client: TranslationClient
+    lateinit var translationClient: TranslationClient
+    lateinit var dictionaryClient: DictionaryClient
 }
 
 fun String.getDrawableByName(): DrawableResource? {

@@ -1,7 +1,5 @@
 package com.translate.utils
 
-import com.translate.utils.Error
-
 enum class NetworkError : Error {
     REQUEST_TIMEOUT,
     UNAUTHORIZED,
@@ -13,3 +11,4 @@ enum class NetworkError : Error {
     SERIALIZATION,
     UNKNOWN;
 }
+

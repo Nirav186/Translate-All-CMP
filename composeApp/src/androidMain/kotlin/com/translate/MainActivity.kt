@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.translate.data.networking.DictionaryClient
 import com.translate.data.networking.TranslationClient
 import com.translate.data.networking.createHttpClient
 import com.translate.database.getTranslateDatabase
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
         lateinit var context: Context
     }
 
+    private val httpClient = createHttpClient(OkHttp.create())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
@@ -33,7 +35,11 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
-            App(dao, client = TranslationClient(createHttpClient(OkHttp.create())))
+            App(
+                historyDao = dao,
+                translationClient = TranslationClient(httpClient),
+                dictionaryClient = DictionaryClient(httpClient)
+            )
         }
     }
 }

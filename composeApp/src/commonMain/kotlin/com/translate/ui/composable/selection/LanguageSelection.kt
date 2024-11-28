@@ -48,7 +48,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.translate.data.model.Language
-import com.translate.translate.ui.composable.components.BackButton
+import com.translate.ui.composable.components.BackButton
 import com.translate.utils.getDrawableByName
 import org.jetbrains.compose.resources.painterResource
 

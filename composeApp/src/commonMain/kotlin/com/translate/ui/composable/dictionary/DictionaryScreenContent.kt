@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -23,8 +24,12 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.translate.data.model.DictionaryResponseItem
 import com.translate.ui.composable.components.CustomSearchBar
 import com.translate.ui.composable.components.DictionaryResponseCard
+import com.translate.ui.composable.components.MeaningItems
+import com.translate.utils.Result
+import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 
 
@@ -89,25 +94,39 @@ fun DictionaryScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 12.sdp, vertical = 8.sdp),
-                    query = dictionaryViewModel.searchQuery.value
+                    query = dictionaryViewModel.searchQuery.collectAsState().value
                 )
             }
-            item {
-                val response = mapOf(
-                    "word" to "phenomenon",
-                    "phonetic" to "/fɪˈnɒmənɒn/",
-                    "meanings" to listOf(
-                        "A thing or being, event or process, perceptible through senses; or a fact or occurrence thereof.",
-                        "A knowable thing or event, e.g., by inference, especially in science.",
-                        "A volcanic eruption is an impressive phenomenon."
-                    )
-                )
 
-                DictionaryResponseCard(
-                    word = response["word"] as String,
-                    phonetic = response["phonetic"] as String,
-                    meanings = response["meanings"] as List<String>
-                )
+            item {
+                when (dictionaryViewModel.dictionaryResponseState.collectAsState().value) {
+                    is Result.Error -> {
+                        val error =
+                            dictionaryViewModel.dictionaryResponseState.value as Result.Error
+                        showToast(error.error.data)
+                    }
+
+                    Result.Idle -> {}
+                    is Result.Success -> {
+                        val data =
+                            (dictionaryViewModel.dictionaryResponseState.value as Result.Success<DictionaryResponseItem?>).data
+
+                        DictionaryResponseCard(
+                            modifier = Modifier.padding(horizontal = 8.sdp, vertical = 4.sdp),
+                            word = data?.word ?: "",
+                            phonetic = data?.phonetic ?: "",
+                        )
+
+                        data?.meanings?.let {
+                            it.forEach { meaning ->
+                                MeaningItems(
+                                    modifier = Modifier.padding(horizontal = 8.sdp, vertical = 4.sdp),
+                                    meaning = meaning
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }

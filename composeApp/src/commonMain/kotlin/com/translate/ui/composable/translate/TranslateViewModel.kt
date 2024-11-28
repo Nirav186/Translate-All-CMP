@@ -65,7 +65,7 @@ class TranslateViewModel : ScreenModel {
         //todo: implement translate api and update history then only perform below add history operation
         //todo:remove below line it's only for testing
         screenModelScope.launch {
-            val translateWords = Constant.client.translateWords(
+            val translateWords = Constant.translationClient.translateWords(
                 originalText = _history.value.originalText,
                 srcLanguage = keyValueStorage.fromLanguageCode.ifEmpty { Constant.languageList.first().code },
                 targetLanguage = keyValueStorage.toLanguageCode.ifEmpty { Constant.languageList.first().code }
