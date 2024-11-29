@@ -5,6 +5,9 @@ import com.translate.data.model.Language
 import com.translate.data.networking.TranslationClient
 import com.translate.tts.SpeechToTextService
 import com.translate.tts.TextToSpeechService
+import com.translate.ui.composable.dashboardOne.DashBoardViewModel.EventListener
+import dev.icerock.moko.mvvm.dispatcher.EventsDispatcher
+import dev.icerock.moko.permissions.PermissionsController
 import org.jetbrains.compose.resources.DrawableResource
 import translate.composeapp.generated.resources.Res
 import translate.composeapp.generated.resources.afrikaans
@@ -4717,6 +4720,8 @@ object Constant {
     lateinit var client: TranslationClient
     lateinit var textToSpeechService: TextToSpeechService
     lateinit var speechToTextService: SpeechToTextService
+    lateinit var permissionsController: PermissionsController
+    lateinit var eventsDispatcherOnMain: EventsDispatcher<EventListener>
 }
 
 fun String.getDrawableByName(): DrawableResource? {

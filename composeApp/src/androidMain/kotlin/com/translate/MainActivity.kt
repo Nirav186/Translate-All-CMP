@@ -14,6 +14,9 @@ import com.translate.data.networking.createHttpClient
 import com.translate.database.getTranslateDatabase
 import com.translate.tts.SpeechToTextService
 import com.translate.tts.TextToSpeechService
+import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
+import dev.icerock.moko.permissions.PermissionsController
+import dev.icerock.moko.permissions.compose.BindEffect
 import io.ktor.client.engine.okhttp.OkHttp
 
 class MainActivity : ComponentActivity() {
@@ -36,12 +39,16 @@ class MainActivity : ComponentActivity() {
                 Color.TRANSPARENT, Color.TRANSPARENT
             )
         )
+        val permissionsController = PermissionsController(applicationContext)
         setContent {
+//            BindEffect(permissionsController)
             App(
                 historyDao = dao,
                 client = TranslationClient(createHttpClient(OkHttp.create())),
                 textToSpeechService = TextToSpeechService(this),
-                speechToTextService = SpeechToTextService(this)
+                speechToTextService = SpeechToTextService(this),
+                permissionsController = permissionsController,
+                eventsDispatcherOnMain = eventsDispatcherOnMain()
             )
         }
     }

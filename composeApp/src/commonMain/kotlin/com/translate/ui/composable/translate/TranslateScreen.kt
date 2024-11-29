@@ -62,6 +62,7 @@ import com.translate.ui.composable.components.TextArea
 import com.translate.ui.composable.dashboardOne.DashBoardViewModel
 import com.translate.ui.composable.selection.LanguageSelectionScreen
 import com.translate.utils.Constant
+import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
@@ -76,7 +77,13 @@ class TranslateScreen(private val history: History? = null) : Screen {
             factory.createPermissionsController()
         }
 
-        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(controller) }
+        val dashBoardViewModel = rememberScreenModel {
+            DashBoardViewModel(
+                permissionsController = controller,
+                permissionType = Permission.RECORD_AUDIO,
+                eventsDispatcher = Constant.eventsDispatcherOnMain
+            )
+        }
         val translateViewModel = rememberScreenModel { TranslateViewModel() }
 
         val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()

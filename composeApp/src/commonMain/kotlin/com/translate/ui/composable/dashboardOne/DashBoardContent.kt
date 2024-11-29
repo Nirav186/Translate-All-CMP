@@ -96,7 +96,7 @@ fun DashBoardContent(
                 ),
                 actions = {
                     IconButton(onClick = {
-                        when(dashBoardViewModel.permissionState) {
+                        when(dashBoardViewModel.permissionState.value) {
                             PermissionState.Granted -> {
                                 if (isListening) {
                                     isListening = false

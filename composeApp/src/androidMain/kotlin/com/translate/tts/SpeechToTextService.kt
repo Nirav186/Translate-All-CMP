@@ -7,7 +7,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 
-actual class SpeechToTextService(private val context: Context) : RecognitionListener {
+actual class SpeechToTextService(context: Context) : RecognitionListener {
     private var speechRecognizer: SpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
     private var onResultCallback: ((String) -> Unit)? = null
     private var onErrorCallback: ((String) -> Unit)? = null
