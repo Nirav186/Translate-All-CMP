@@ -80,7 +80,7 @@ kotlin {
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
 
-            implementation("com.squareup.retrofit2:retrofit:2.9.0")
+            implementation(libs.retrofit)
 
             implementation(libs.coil.compose)
 

@@ -35,7 +35,7 @@ class SplashScreen : Screen {
 
         LaunchedEffect(Unit) {
             delay(1000L)
-            navigator.push(DashBoardScreen())
+            navigator.replace(DashBoardScreen())
 //            navHostController.navigate(Screens.OnBoard) {
 //                popUpTo<Screens.SplashScreen> { inclusive = true }
 //            }

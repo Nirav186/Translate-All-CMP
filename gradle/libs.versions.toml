@@ -23,6 +23,7 @@ kotlinxSerializationJson = "1.7.1"
 kotlinxSerializationJsonVersion = "1.4.1"
 multiplatformSettingsNoArg = "1.0.0"
 mvvmCore = "0.16.1"
+retrofit = "2.9.0"
 room = "2.7.0-alpha11"
 ksp = "2.1.0-1.0.29"
 sdpSspComposeMultiplatform = "1.0.4"
@@ -65,6 +66,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 #androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 sdp-ssp-compose-multiplatform = { module = "network.chaintech:sdp-ssp-compose-multiplatform", version.ref = "sdpSspComposeMultiplatform" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
