@@ -4,6 +4,8 @@ import com.translate.data.local.HistoryDao
 import com.translate.data.model.Language
 import com.translate.data.networking.DictionaryClient
 import com.translate.data.networking.TranslationClient
+import com.translate.tts.SpeechToTextService
+import com.translate.tts.TextToSpeechService
 import org.jetbrains.compose.resources.DrawableResource
 import translate.composeapp.generated.resources.Res
 import translate.composeapp.generated.resources.abrahamlincoln
@@ -4740,6 +4742,8 @@ object Constant {
     lateinit var historyDao: HistoryDao
     lateinit var translationClient: TranslationClient
     lateinit var dictionaryClient: DictionaryClient
+    lateinit var textToSpeechService: TextToSpeechService
+    lateinit var speechToTextService: SpeechToTextService
 }
 
 fun String.getDrawableByName(): DrawableResource? {

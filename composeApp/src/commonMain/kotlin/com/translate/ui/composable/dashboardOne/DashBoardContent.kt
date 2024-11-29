@@ -36,6 +36,9 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,11 +47,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import com.translate.ads.AdMobBanner
 import com.translate.data.storage.KeyValueStorage
 import com.translate.data.storage.KeyValueStorageImpl
 import com.translate.ui.composable.components.RotatingSwapIcon
 import com.translate.utils.Constant
 import com.translate.utils.getDrawableByName
+import dev.icerock.moko.permissions.PermissionState
+import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.DrawableResource
@@ -79,6 +85,8 @@ fun DashBoardContent(
     val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
     val selectedToLang by keyValueStorage.observableToLanguage.collectAsState(initial = Constant.languageList.first())
 
+    var isListening by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -89,7 +97,34 @@ fun DashBoardContent(
                     navigationIconContentColor = MaterialTheme.colorScheme.surface
                 ),
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        when(dashBoardViewModel.permissionState) {
+                            PermissionState.Granted -> {
+                                if (isListening) {
+                                    isListening = false
+                                    Constant.speechToTextService.stopListening()
+                                } else {
+                                    isListening = true
+                                    Constant.speechToTextService.startListening(
+                                        onResult = { text ->
+                                            showToast(text)
+                                            isListening = false
+                                        },
+                                        onError = { errorMsg ->
+                                            showToast(errorMsg)
+                                            isListening = false
+                                        }
+                                    )
+                                }
+                            }
+                            PermissionState.DeniedAlways -> {
+                                dashBoardViewModel.openAppSettings()
+                            }
+                            else -> {
+                                dashBoardViewModel.provideOrRequestRecordAudioPermission()
+                            }
+                        }
+                    }) {
                         Icon(imageVector = Icons.Filled.Settings, contentDescription = "setting")
                     }
                 },
@@ -100,153 +135,160 @@ fun DashBoardContent(
         Column(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize(),
+                .fillMaxSize()
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .padding(8.sdp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                    .verticalScroll(rememberScrollState())
+                    .weight(1f),
             ) {
-                DummyDropDown(
-                    modifier = Modifier.weight(1f),
-                    language = selectedFromLang.name,
-                    iconRes = selectedFromLang.iconResId,
-                    bgColor = MaterialTheme.colorScheme.primary.copy(alpha = .1f),
-                    onClick = {
-                        navigateToLanguageSelection(true)
-                    }
-                )
-                RotatingSwapIcon(
-                    dashBoardViewModel = dashBoardViewModel,
-                    selectedFromLang = selectedFromLang,
-                    selectedToLang = selectedToLang
-                )
-                DummyDropDown(
-                    modifier = Modifier.weight(1f),
-                    language = selectedToLang.name,
-                    iconRes = selectedToLang.iconResId,
-                    bgColor = MaterialTheme.colorScheme.primary.copy(alpha = .1f),
-                    onClick = {
-                        navigateToLanguageSelection(false)
-                    }
-                )
-            }
-            Card(
-                modifier = Modifier.padding(horizontal = 8.sdp),
-                elevation = CardDefaults.cardElevation(1.sdp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(0.sdp)
-                ),
-                shape = RoundedCornerShape(12.sdp),
-                onClick = {
-                    navigateToTranslateScreen()
-                }
-            ) {
-                Box(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(125.sdp)
+                        .padding(8.sdp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        modifier = Modifier.padding(vertical = 16.sdp, horizontal = 8.sdp),
-                        text = "Enter Text ..",
-                        style = TextStyle(
-                            fontSize = 16.ssp,
-                            color = Color.Gray.copy(.8f)
-                        )
+                    DummyDropDown(
+                        modifier = Modifier.weight(1f),
+                        language = selectedFromLang.name,
+                        iconRes = selectedFromLang.iconResId,
+                        bgColor = MaterialTheme.colorScheme.primary.copy(alpha = .1f),
+                        onClick = {
+                            navigateToLanguageSelection(true)
+                        }
                     )
-                    Surface(
+                    RotatingSwapIcon(
+                        dashBoardViewModel = dashBoardViewModel,
+                        selectedFromLang = selectedFromLang,
+                        selectedToLang = selectedToLang
+                    )
+                    DummyDropDown(
+                        modifier = Modifier.weight(1f),
+                        language = selectedToLang.name,
+                        iconRes = selectedToLang.iconResId,
+                        bgColor = MaterialTheme.colorScheme.primary.copy(alpha = .1f),
+                        onClick = {
+                            navigateToLanguageSelection(false)
+                        }
+                    )
+                }
+                Card(
+                    modifier = Modifier.padding(horizontal = 8.sdp),
+                    elevation = CardDefaults.cardElevation(1.sdp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(0.sdp)
+                    ),
+                    shape = RoundedCornerShape(12.sdp),
+                    onClick = {
+                        navigateToTranslateScreen()
+                    }
+                ) {
+                    Box(
                         modifier = Modifier
-                            .padding(8.sdp)
-                            .align(Alignment.BottomEnd)
-                            .clickable(onClick = {
-
-                            }),
-                        tonalElevation = 8.sdp,
-                        shadowElevation = 0.sdp,
-                        shape = RoundedCornerShape(50),
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = .2f)
+                            .fillMaxWidth()
+                            .height(125.sdp)
                     ) {
-                        Icon(
+                        Text(
+                            modifier = Modifier.padding(vertical = 16.sdp, horizontal = 8.sdp),
+                            text = "Enter Text ..",
+                            style = TextStyle(
+                                fontSize = 16.ssp,
+                                color = Color.Gray.copy(.8f)
+                            )
+                        )
+                        Surface(
                             modifier = Modifier
                                 .padding(8.sdp)
-                                .size(20.sdp),
-                            imageVector = Icons.TwoTone.Mic,
-                            contentDescription = "mic",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
+                                .align(Alignment.BottomEnd)
+                                .clickable(onClick = {
+
+                                }),
+                            tonalElevation = 8.sdp,
+                            shadowElevation = 0.sdp,
+                            shape = RoundedCornerShape(50),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = .2f)
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(8.sdp)
+                                    .size(20.sdp),
+                                imageVector = Icons.TwoTone.Mic,
+                                contentDescription = "mic",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                 }
+                Row {
+                    DashBoardPageItem2(
+                        modifier = Modifier.weight(1f),
+                        startImg = Res.drawable.icn_dictionary,
+                        bgColor = Color(0xFFe4f2ed),
+                        textColor = Color(0xFF32574a),
+                        title = "Dictionary\n",
+                        onClick = { navigateToDictionaryScreen() }
+                    )
+                    DashBoardPageItem2(
+                        modifier = Modifier.weight(1f),
+                        startImg = Res.drawable.icn_instant_translation,
+                        bgColor = Color(0xFFebf3fe),
+                        textColor = Color(0xFF64593f),
+                        title = "Instant\nTranslation",
+                        onClick = {}
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.sdp)
+                ) {
+                    DashBoardPageItem1(
+                        startImg = Res.drawable.icn_quotes,
+                        bgColor = Color(0x19d28eea),
+                        textColor = Color(0xFF6f557a),
+                        title = "Quote",
+                        onClick ={
+                            navigateToQuotesScreen()
+                        }
+                    )
+                    DashBoardPageItem1(
+                        startImg = Res.drawable.icn_idioms,
+                        bgColor = Color(0xFFf0f5e6),
+                        textColor = Color(0xFF5e664f),
+                        title = "Idioms",
+                        onClick = { navigateToIdiomsListScreen() }
+                    )
+                    DashBoardPageItem1(
+                        startImg = Res.drawable.icn_history,
+                        bgColor = Color(0x2674cbfd),
+                        textColor = Color(0xFF415968),
+                        title = "History",
+                        onClick = { navigateToHistoryScreen() }
+                    )
+                    DashBoardPageItem1(
+                        startImg = Res.drawable.icn_favorite,
+                        bgColor = Color(0x19fe5364),
+                        textColor = Color(0xFF684143),
+                        title = "Favourite",
+                        onClick = { navigateToFavoriteScreen() }
+                    )
+                    DashBoardPageItem1(
+                        startImg = Res.drawable.icn_feedback,
+                        bgColor = Color(0x198699ff),
+                        textColor = Color(0xFF4f5574),
+                        title = "Feedback",
+                        onClick = {}
+                    )
+                    DashBoardPageItem1(
+                        startImg = Res.drawable.icn_rate,
+                        bgColor = Color(0x33fdc956),
+                        textColor = Color(0xFF64593f),
+                        title = "Rate Us",
+                        onClick = {}
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.sdp))
             }
-            Row {
-                DashBoardPageItem2(
-                    modifier = Modifier.weight(1f),
-                    startImg = Res.drawable.icn_dictionary,
-                    bgColor = Color(0xFFe4f2ed),
-                    textColor = Color(0xFF32574a),
-                    title = "Dictionary\n",
-                    onClick = { navigateToDictionaryScreen() }
-                )
-                DashBoardPageItem2(
-                    modifier = Modifier.weight(1f),
-                    startImg = Res.drawable.icn_instant_translation,
-                    bgColor = Color(0xFFebf3fe),
-                    textColor = Color(0xFF64593f),
-                    title = "Instant\nTranslation",
-                    onClick = {}
-                )
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.sdp)
-            ) {
-                DashBoardPageItem1(
-                    startImg = Res.drawable.icn_quotes,
-                    bgColor = Color(0x19d28eea),
-                    textColor = Color(0xFF6f557a),
-                    title = "Quote",
-                    onClick = {
-                        navigateToQuotesScreen()
-                    }
-                )
-                DashBoardPageItem1(
-                    startImg = Res.drawable.icn_idioms,
-                    bgColor = Color(0xFFf0f5e6),
-                    textColor = Color(0xFF5e664f),
-                    title = "Idioms",
-                    onClick = { navigateToIdiomsListScreen() }
-                )
-                DashBoardPageItem1(
-                    startImg = Res.drawable.icn_history,
-                    bgColor = Color(0x2674cbfd),
-                    textColor = Color(0xFF415968),
-                    title = "History",
-                    onClick = { navigateToHistoryScreen() }
-                )
-                DashBoardPageItem1(
-                    startImg = Res.drawable.icn_favorite,
-                    bgColor = Color(0x19fe5364),
-                    textColor = Color(0xFF684143),
-                    title = "Favourite",
-                    onClick = { navigateToFavoriteScreen() }
-                )
-                DashBoardPageItem1(
-                    startImg = Res.drawable.icn_feedback,
-                    bgColor = Color(0x198699ff),
-                    textColor = Color(0xFF4f5574),
-                    title = "Feedback",
-                    onClick = {}
-                )
-                DashBoardPageItem1(
-                    startImg = Res.drawable.icn_rate,
-                    bgColor = Color(0x33fdc956),
-                    textColor = Color(0xFF64593f),
-                    title = "Rate Us",
-                    onClick = {}
-                )
-            }
+            AdMobBanner(Modifier.fillMaxWidth())
         }
     }
 }
