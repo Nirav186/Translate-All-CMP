@@ -8,5 +8,5 @@ fun MainViewController() = ComposeUIViewController {
     val dao = remember {
         getTranslateDatabase().getHistoryDao()
     }
-    com.all.language.translate.speech.text.App(dao)
+    App(dao)
 }

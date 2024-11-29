@@ -129,7 +129,7 @@ fun FavoriteScreenContent(
                         }
                     }
                 },
-                title = { Text(text = "History", fontWeight = FontWeight.Medium) },
+                title = { Text(text = "Favorite", fontWeight = FontWeight.Medium) },
             )
         }
     ) {
