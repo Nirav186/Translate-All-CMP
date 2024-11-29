@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -45,11 +43,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.all.language.translate.speech.text.data.model.Language
 import com.all.language.translate.speech.text.ui.composable.components.BackButton
 import com.all.language.translate.speech.text.ui.composable.components.ExpandableSearchView
 import com.all.language.translate.speech.text.utils.getDrawableByName
+import network.chaintech.sdpcomposemultiplatform.sdp
+import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,11 +58,10 @@ fun LanguageSelection(
     isFrom: Boolean,
     onSaveClick: () -> Unit,
 ) {
-
     val titleText by remember {
         mutableStateOf(
             "Translate ${
-                if (isFrom) "from" else "to"
+                if (isFrom) "From" else "To"
             }"
         )
     }
@@ -82,18 +80,18 @@ fun LanguageSelection(
                     navigationIconContentColor = MaterialTheme.colorScheme.surface
                 ),
                 actions = {
-                    if (!expanded) {
+                    if (!expanded && selectedLanguage != null) {
                         Button(
                             modifier = Modifier
                                 .padding(vertical = 2.dp)
-                                .height(25.dp)
-                                .width(48.dp),
+                                .height(28.dp)
+                                .width(60.dp),
                             shape = RoundedCornerShape(8.dp),
                             colors = ButtonColors(
                                 containerColor = MaterialTheme.colorScheme.surface,
                                 contentColor = MaterialTheme.colorScheme.primary,
                                 disabledContainerColor = Color.Unspecified,
-                                disabledContentColor = Color.Unspecified
+                                disabledContentColor = MaterialTheme.colorScheme.surface
                             ),
                             contentPadding = PaddingValues(0.dp),
                             onClick = {
@@ -105,7 +103,7 @@ fun LanguageSelection(
                             },
                             enabled = selectedLanguage != null
                         ) {
-                            Text(text = "Save", fontSize = 12.sp)
+                            Text(text = "Save", fontSize = 12.ssp)
                         }
                     }
                 },
@@ -135,7 +133,7 @@ fun LanguageSelection(
     ) {
         LazyColumn(
             modifier = Modifier.padding(it),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(2.sdp)
         ) {
             items(
                 languages.sortedBy { itm -> itm.popularityRank },
@@ -148,6 +146,11 @@ fun LanguageSelection(
                     isSelected = selectedLanguage == lang,
                     onClick = {
                         selectedLanguage = lang
+                        languageSelectionViewModel.saveLanguageIndex(
+                            selectedLanguage,
+                            isFrom
+                        )
+                        onSaveClick()
                     }
                 )
             }
@@ -164,28 +167,26 @@ fun LanguageCard(
 ) {
     Card(
         modifier = modifier
-            .padding(horizontal = 8.dp),
-        elevation = CardDefaults.cardElevation(8.dp),
+            .padding(horizontal = 6.sdp, vertical = 4.sdp),
+        elevation = CardDefaults.cardElevation(4.sdp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.sdp)
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.sdp)
     ) {
         Row(
-            modifier = modifier
-                .padding(horizontal = 4.dp)
-                .fillMaxWidth()
-                .clickable(onClick = {
-                    onClick()
-                }),
+            modifier = Modifier
+                .clickable(onClick = onClick)
+                .padding(horizontal = 8.sdp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             language.iconResId.getDrawableByName()?.let { drawableResource ->
                 Image(
                     modifier = Modifier
-                        .padding(vertical = 4.dp)
-                        .size(32.dp)
-                        .padding(4.dp),
+                        .padding(vertical = 4.sdp)
+                        .size(32.sdp)
+                        .padding(4.sdp),
                     painter = painterResource(drawableResource),
                     contentDescription = null
                 )
@@ -196,11 +197,11 @@ fun LanguageCard(
                     .weight(1f)
             ) {
                 Text(text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp)) {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 14.ssp)) {
                         append(language.name)
                     }
                     if (language.popularityRank != 0) {
-                        withStyle(style = SpanStyle(fontSize = 11.sp)) {
+                        withStyle(style = SpanStyle(fontSize = 11.ssp)) {
                             append("  ")
                             append(language.nativeName)
                         }
@@ -213,16 +214,19 @@ fun LanguageCard(
                     )
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(20.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                if (language.isActive && language.popularityRank != 0) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "voice")
-                }
-            }
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxHeight()
+//                    .width(20.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                if (language.isActive && language.popularityRank != 0) {
+//                    Icon(
+//                        imageVector = Icons.AutoMirrored.Filled.VolumeUp,
+//                        contentDescription = "voice"
+//                    )
+//                }
+//            }
         }
     }
 }

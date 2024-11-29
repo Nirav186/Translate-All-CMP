@@ -30,11 +30,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -94,8 +97,12 @@ fun CollapsedSearchView(
     ) {
         Text(
             text = actionBarText,
-            fontSize = 16.sp,
-//            fontFamily = FontFamily(montRFont)
+            fontSize = 16.ssp,
+            style = TextStyle(
+                color = Color.White,
+                fontSize = 16.ssp,
+                fontWeight = FontWeight.Bold
+            )
         )
         IconButton(onClick = { onExpandedChanged(true) }) {
             SearchIcon(iconTint = tint)
