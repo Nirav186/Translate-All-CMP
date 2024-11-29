@@ -201,7 +201,7 @@ fun TranslateScreenContent(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = {
+                       /* IconButton(onClick = {
                             if (selectedFromLang.isActive.not()) {
                                 showToast(message = "Speech output isn't available for ${selectedFromLang.name}")
                             }
@@ -211,8 +211,8 @@ fun TranslateScreenContent(
                                 ) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                                 contentDescription = ""
                             )
-                        }
-                        Text(text = selectedFromLang.name, fontSize = 11.ssp)
+                        }*/
+//                        Text(text = selectedFromLang.name, fontSize = 11.ssp)
                         Spacer(modifier = Modifier.weight(1f))
 
                         if (historyLocal.originalText.isEmpty().not()) {
@@ -225,10 +225,10 @@ fun TranslateScreenContent(
                         }
 
                         if (historyLocal.originalText.isEmpty()) {
-                            IconButton(
+                           /* IconButton(
                                 onClick = { }) {
                                 Icon(imageVector = Icons.Filled.Mic, contentDescription = "mic")
-                            }
+                            }*/
                         }
                     }
 
@@ -303,18 +303,19 @@ fun TranslateScreenContent(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(onClick = {
+                            /*IconButton(onClick = {
                                 if (selectedFromLang.isActive.not()) {
                                     showToast(message = "Speech output isn't available for ${historyLocal.toLang}")
+                                }else{
+
                                 }
                             }) {
                                 Icon(
-                                    imageVector = if (historyLocal.translateText.isEmpty()
-                                            .not()
-                                    ) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
+                                    imageVector = if (historyLocal.translateText.isEmpty().not())
+                                        Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                                     contentDescription = ""
                                 )
-                            }
+                            }*/
                             Text(text = selectedToLang.name, fontSize = 11.ssp)
                             Spacer(modifier = Modifier.weight(1f))
 

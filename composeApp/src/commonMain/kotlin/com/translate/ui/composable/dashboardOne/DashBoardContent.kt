@@ -20,7 +20,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.twotone.Mic
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -42,11 +40,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import com.translate.ads.AdMobBanner
 import com.translate.data.storage.KeyValueStorage
 import com.translate.data.storage.KeyValueStorageImpl
@@ -60,12 +60,12 @@ import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import translate.composeapp.generated.resources.Res
-import translate.composeapp.generated.resources.icn_dictionary
-import translate.composeapp.generated.resources.icn_favorite
+import translate.composeapp.generated.resources.ic_favorite_png
+import translate.composeapp.generated.resources.ic_history_png
+import translate.composeapp.generated.resources.ic_idioms_png
+import translate.composeapp.generated.resources.ic_quotes_png
+import translate.composeapp.generated.resources.icn_dictionary_png
 import translate.composeapp.generated.resources.icn_feedback
-import translate.composeapp.generated.resources.icn_history
-import translate.composeapp.generated.resources.icn_idioms
-import translate.composeapp.generated.resources.icn_instant_translation
 import translate.composeapp.generated.resources.icn_quotes
 import translate.composeapp.generated.resources.icn_rate
 
@@ -98,7 +98,7 @@ fun DashBoardContent(
                 ),
                 actions = {
                     IconButton(onClick = {
-                        when(dashBoardViewModel.permissionState) {
+                        when (dashBoardViewModel.permissionState) {
                             PermissionState.Granted -> {
                                 if (isListening) {
                                     isListening = false
@@ -117,9 +117,11 @@ fun DashBoardContent(
                                     )
                                 }
                             }
+
                             PermissionState.DeniedAlways -> {
                                 dashBoardViewModel.openAppSettings()
                             }
+
                             else -> {
                                 dashBoardViewModel.provideOrRequestRecordAudioPermission()
                             }
@@ -197,96 +199,149 @@ fun DashBoardContent(
                                 color = Color.Gray.copy(.8f)
                             )
                         )
-                        Surface(
-                            modifier = Modifier
-                                .padding(8.sdp)
-                                .align(Alignment.BottomEnd)
-                                .clickable(onClick = {
+                        /*  Surface(
+                              modifier = Modifier
+                                  .padding(8.sdp)
+                                  .align(Alignment.BottomEnd)
+                                  .clickable(onClick = {
 
-                                }),
-                            tonalElevation = 8.sdp,
-                            shadowElevation = 0.sdp,
-                            shape = RoundedCornerShape(50),
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = .2f)
-                        ) {
-                            Icon(
-                                modifier = Modifier
-                                    .padding(8.sdp)
-                                    .size(20.sdp),
-                                imageVector = Icons.TwoTone.Mic,
-                                contentDescription = "mic",
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
+                                  }),
+                              tonalElevation = 8.sdp,
+                              shadowElevation = 0.sdp,
+                              shape = RoundedCornerShape(50),
+                              color = MaterialTheme.colorScheme.primary.copy(alpha = .2f)
+                          ) {
+                              Icon(
+                                  modifier = Modifier
+                                      .padding(8.sdp)
+                                      .size(20.sdp),
+                                  imageVector = Icons.TwoTone.Mic,
+                                  contentDescription = "mic",
+                                  tint = MaterialTheme.colorScheme.primary
+                              )
+                          }*/
                     }
                 }
-                Row {
-                    DashBoardPageItem2(
-                        modifier = Modifier.weight(1f),
-                        startImg = Res.drawable.icn_dictionary,
-                        bgColor = Color(0xFFe4f2ed),
-                        textColor = Color(0xFF32574a),
-                        title = "Dictionary\n",
-                        onClick = { navigateToDictionaryScreen() }
-                    )
-                    DashBoardPageItem2(
-                        modifier = Modifier.weight(1f),
-                        startImg = Res.drawable.icn_instant_translation,
-                        bgColor = Color(0xFFebf3fe),
-                        textColor = Color(0xFF64593f),
-                        title = "Instant\nTranslation",
-                        onClick = {}
-                    )
-                }
+
+                DashBoardPageItem(
+                    modifier = Modifier
+                        .padding(8.sdp)
+                        .fillMaxWidth()
+                        .background(Color(0xFFE3F2ED), RoundedCornerShape(10.sdp))
+                        .clip(RoundedCornerShape(10.sdp)),
+                    startImg = Res.drawable.icn_dictionary_png,
+                    textColor = Color(0xFF32574a),
+                    title = "Dictionary",
+                    imageSize = 68.sdp,
+                    onClick = { navigateToDictionaryScreen() }
+                )
+
                 Column(
                     verticalArrangement = Arrangement.spacedBy(4.sdp)
                 ) {
-                    DashBoardPageItem1(
-                        startImg = Res.drawable.icn_quotes,
-                        bgColor = Color(0x19d28eea),
-                        textColor = Color(0xFF6f557a),
-                        title = "Quote",
-                        onClick = { navigateToQuotesScreen() }
-                    )
-                    DashBoardPageItem1(
-                        startImg = Res.drawable.icn_idioms,
-                        bgColor = Color(0xFFf0f5e6),
-                        textColor = Color(0xFF5e664f),
-                        title = "Idioms",
-                        onClick = { navigateToIdiomsListScreen() }
-                    )
-                    DashBoardPageItem1(
-                        startImg = Res.drawable.icn_history,
-                        bgColor = Color(0x2674cbfd),
-                        textColor = Color(0xFF415968),
-                        title = "History",
-                        onClick = { navigateToHistoryScreen() }
-                    )
-                    DashBoardPageItem1(
-                        startImg = Res.drawable.icn_favorite,
-                        bgColor = Color(0x19fe5364),
-                        textColor = Color(0xFF684143),
-                        title = "Favourite",
-                        onClick = { navigateToFavoriteScreen() }
-                    )
-                    DashBoardPageItem1(
-                        startImg = Res.drawable.icn_feedback,
-                        bgColor = Color(0x198699ff),
-                        textColor = Color(0xFF4f5574),
-                        title = "Feedback",
-                        onClick = {}
-                    )
-                    DashBoardPageItem1(
-                        startImg = Res.drawable.icn_rate,
-                        bgColor = Color(0x33fdc956),
-                        textColor = Color(0xFF64593f),
-                        title = "Rate Us",
-                        onClick = {}
-                    )
+                    Row() {
+                        DashBoardPageItem1(
+                            modifier = Modifier.weight(1f),
+                            startImg = Res.drawable.ic_quotes_png,
+//                            bgColor = Color(0x19d28eea),
+                            bgColor = Brush.linearGradient(
+                                colors = listOf(Color(0xFFE4FAFFCC), Color(0xFFEBEFFF1CC)),
+                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                end = androidx.compose.ui.geometry.Offset(
+                                    0f,
+                                    Float.POSITIVE_INFINITY
+                                )
+                            ),
+                            textColor = Color(0xFF6f557a),
+                            title = "Quote",
+                            onClick = { navigateToQuotesScreen() }
+                        )
+                        DashBoardPageItem1(
+                            modifier = Modifier.weight(1f),
+                            startImg = Res.drawable.ic_idioms_png,
+                            bgColor = Brush.linearGradient(
+                                colors = listOf(Color(0xEED4FFCC), Color(0xCC99FFCC)),
+                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                end = androidx.compose.ui.geometry.Offset(
+                                    0f,
+                                    Float.POSITIVE_INFINITY
+                                )
+                            ),
+                            textColor = Color(0xFF5e664f),
+                            title = "Idioms",
+                            onClick = { navigateToIdiomsListScreen() }
+                        )
+                    }
+                    Row() {
+                        DashBoardPageItem1(
+                            modifier = Modifier.weight(1f),
+                            startImg = Res.drawable.ic_history_png,
+                            bgColor = Brush.linearGradient(
+                                colors = listOf(Color(0xFFE4ECCC), Color(0xFFB8C1CC)),
+                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                end = androidx.compose.ui.geometry.Offset(
+                                    0f,
+                                    Float.POSITIVE_INFINITY
+                                )
+                            ),
+                            textColor = Color(0xFF415968),
+                            title = "History",
+                            onClick = { navigateToHistoryScreen() }
+                        )
+                        DashBoardPageItem1(
+                            modifier = Modifier.weight(1f),
+                            startImg = Res.drawable.ic_favorite_png,
+                            bgColor = Brush.linearGradient(
+                                colors = listOf(Color(0xE9E4FFCC), Color(0xC5B8FFCC)),
+                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                end = androidx.compose.ui.geometry.Offset(
+                                    0f,
+                                    Float.POSITIVE_INFINITY
+                                )
+                            ),
+                            textColor = Color(0xFF684143),
+                            title = "Favourite",
+                            onClick = { navigateToFavoriteScreen() }
+                        )
+                    }
+                    Row() {
+                        DashBoardPageItem1(
+                            modifier = Modifier.weight(1f),
+                            startImg = Res.drawable.icn_feedback,
+                            bgColor = Brush.linearGradient(
+                                colors = listOf(Color(0x198699ff), Color(0x198699ff)),
+                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                end = androidx.compose.ui.geometry.Offset(
+                                    0f,
+                                    Float.POSITIVE_INFINITY
+                                )
+                            ),
+//                            bgColor = Color(0x198699ff),
+                            textColor = Color(0xFF4f5574),
+                            title = "Feedback",
+                            onClick = {}
+                        )
+                        DashBoardPageItem1(
+                            modifier = Modifier.weight(1f),
+                            startImg = Res.drawable.icn_rate,
+//                            bgColor = Color(0x33fdc956),
+                            bgColor = Brush.linearGradient(
+                                colors = listOf(Color(0x33fdc956), Color(0x33fdc956)),
+                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
+                                end = androidx.compose.ui.geometry.Offset(
+                                    0f,
+                                    Float.POSITIVE_INFINITY
+                                )
+                            ),
+                            textColor = Color(0xFF64593f),
+                            title = "Rate Us",
+                            onClick = {}
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(10.sdp))
             }
-            AdMobBanner(Modifier.fillMaxWidth())
+//            AdMobBanner(Modifier.fillMaxWidth())
         }
     }
 }
@@ -296,7 +351,7 @@ fun DashBoardContent(
 fun DashBoardPageItem1(
     modifier: Modifier = Modifier,
     startImg: DrawableResource,
-    bgColor: Color,
+    bgColor: Brush,
     textColor: Color? = null,
     title: String,
     onClick: () -> Unit
@@ -316,12 +371,11 @@ fun DashBoardPageItem1(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier
-                    .padding(horizontal = 10.sdp)
-                    .size(28.sdp),
+                modifier = Modifier.size(32.sdp),
                 painter = painterResource(startImg),
                 contentDescription = null
             )
+            Spacer(modifier = Modifier.width(10.sdp))
             Text(
                 modifier = Modifier.weight(1f),
                 text = title,
@@ -336,50 +390,39 @@ fun DashBoardPageItem1(
 }
 
 @Composable
-fun DashBoardPageItem2(
+fun DashBoardPageItem(
     modifier: Modifier = Modifier,
     startImg: DrawableResource,
-    bgColor: Color,
     textColor: Color? = null,
     title: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    imageSize: Dp? = null
 ) {
     Box(
         modifier = modifier
-            .padding(horizontal = 4.sdp, vertical = 4.sdp)
-            .clip(RoundedCornerShape(12.sdp))
-            .fillMaxWidth(.5f)
-            .background(bgColor)
             .clickable(
                 onClick = onClick
             )
     ) {
-        Column(
-            modifier = Modifier
-                .padding(20.sdp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Row(
+            modifier = Modifier.padding(8.sdp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                modifier = Modifier
-                    .padding(horizontal = 10.sdp)
-                    .size(48.sdp),
-                painter = painterResource(startImg),
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.height(10.sdp))
             Text(
+                modifier = Modifier.weight(1f),
                 text = title,
                 style = TextStyle(
                     fontWeight = FontWeight.Medium,
-                    fontSize = 14.ssp,
-                    textAlign = TextAlign.Center,
+                    fontSize = 16.ssp,
                     color = textColor ?: MaterialTheme.colorScheme.surface
                 )
             )
-//            endIcon?.let {
-//                AsyncImage(model = it, contentDescription = title)
-//            }
+            Image(
+                modifier = Modifier.size(74.sdp),
+                painter = painterResource(startImg),
+                contentDescription = title
+            )
+
         }
     }
 }
