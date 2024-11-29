@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Button
@@ -220,7 +221,7 @@ fun LanguageCard(
                 contentAlignment = Alignment.Center
             ) {
                 if (language.isActive && language.popularityRank != 0) {
-                    Icon(imageVector = Icons.Filled.VolumeUp, contentDescription = "voice")
+                    Icon(imageVector = Icons.AutoMirrored.Filled.VolumeUp, contentDescription = "voice")
                 }
             }
         }

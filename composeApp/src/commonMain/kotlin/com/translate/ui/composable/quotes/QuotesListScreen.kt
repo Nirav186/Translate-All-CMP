@@ -44,7 +44,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.util.lerp
 import cafe.adriel.voyager.core.screen.Screen
@@ -52,8 +51,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.translate.data.model.History
 import com.translate.data.model.Quote
-import com.translate.getMontBFont
 import com.translate.shareText
+import com.translate.theme.getMontBFont
 import com.translate.ui.composable.components.EmptyScreen
 import com.translate.ui.composable.components.TypewriterText
 import com.translate.ui.composable.translate.TranslateScreen
@@ -118,7 +117,6 @@ fun QuotesListScreenContent(
                     .fillMaxSize()
                     .background(color = Color(0xFFf1f1f1)),
                 horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Center
             ) {
                 val icon by remember { mutableStateOf(getQuoteIcon(quote.name)) }
 
@@ -212,7 +210,7 @@ fun QuotePageItem(
             TypewriterText(
                 text = text,
                 style = TextStyle(
-                    fontFamily = FontFamily(getMontBFont()),
+                    fontFamily = getMontBFont(),
                     fontSize = 14.ssp,
                     textAlign = TextAlign.Center
                 )

@@ -46,12 +46,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIAppFonts</key>
-    <array>
-        <string>font/Montserrat-Regular.ttf</string>
-        <string>font/Montserrat-Bold.ttf</string>
-        <string>font/Montserrat-SemiBold.ttf</string>
-        <string>font/Roboto-Medium.ttf</string>
-    </array>
 </dict>
 </plist>

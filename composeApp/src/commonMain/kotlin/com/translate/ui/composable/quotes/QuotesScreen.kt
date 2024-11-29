@@ -45,8 +45,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.translate.data.model.Quote
-import com.translate.getMontRFont
-import com.translate.getMontSBFont
+import com.translate.theme.getMontRFont
+import com.translate.theme.getMontSBFont
 import com.translate.ui.composable.components.EmptyScreen
 import com.translate.utils.getQuoteIcon
 import network.chaintech.sdpcomposemultiplatform.sdp
@@ -177,12 +177,12 @@ fun QuoteItem(
                 Text(
                     text = quoteAuthor,
                     fontSize = 16.ssp,
-                    fontFamily = FontFamily(getMontSBFont())
+                    fontFamily = getMontSBFont()
                 )
                 Text(
                     text = duration,
                     fontWeight = FontWeight.ExtraLight,
-                    fontFamily = FontFamily(getMontRFont())
+                    fontFamily =getMontRFont()
                 )
             }
             IconButton(
