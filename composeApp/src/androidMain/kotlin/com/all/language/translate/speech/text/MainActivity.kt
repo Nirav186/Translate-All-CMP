@@ -9,7 +9,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.all.language.translate.speech.text.data.networking.DictionaryClient
-import com.google.android.gms.ads.MobileAds
 import com.all.language.translate.speech.text.data.networking.TranslationClient
 import com.all.language.translate.speech.text.data.networking.createHttpClient
 import com.all.language.translate.speech.text.database.getTranslateDatabase
@@ -28,7 +27,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
-        MobileAds.initialize(this)
+//        MobileAds.initialize(this)
         val dao = getTranslateDatabase(applicationContext).getHistoryDao()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
