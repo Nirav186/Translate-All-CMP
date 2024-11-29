@@ -1,4 +1,4 @@
-package com.translate
+package com.all.language.translate.speech.text
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,13 +8,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.translate.data.networking.DictionaryClient
+import com.all.language.translate.speech.text.data.networking.DictionaryClient
 import com.google.android.gms.ads.MobileAds
-import com.translate.data.networking.TranslationClient
-import com.translate.data.networking.createHttpClient
-import com.translate.database.getTranslateDatabase
-import com.translate.tts.SpeechToTextService
-import com.translate.tts.TextToSpeechService
+import com.all.language.translate.speech.text.data.networking.TranslationClient
+import com.all.language.translate.speech.text.data.networking.createHttpClient
+import com.all.language.translate.speech.text.database.getTranslateDatabase
+import com.all.language.translate.speech.text.tts.SpeechToTextService
+import com.all.language.translate.speech.text.tts.TextToSpeechService
 import io.ktor.client.engine.okhttp.OkHttp
 
 class MainActivity : ComponentActivity() {

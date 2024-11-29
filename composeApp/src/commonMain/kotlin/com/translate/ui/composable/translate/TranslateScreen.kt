@@ -77,7 +77,7 @@ class TranslateScreen(private val history: History? = null) : Screen {
             factory.createPermissionsController()
         }
 
-        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(controller) }
+        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(/*controller*/) }
         val translateViewModel = rememberScreenModel { TranslateViewModel() }
 
         val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()

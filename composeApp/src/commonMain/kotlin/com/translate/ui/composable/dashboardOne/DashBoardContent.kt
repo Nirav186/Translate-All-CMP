@@ -97,7 +97,7 @@ fun DashBoardContent(
                     navigationIconContentColor = MaterialTheme.colorScheme.surface
                 ),
                 actions = {
-                    IconButton(onClick = {
+                   /* IconButton(onClick = {
                         when (dashBoardViewModel.permissionState) {
                             PermissionState.Granted -> {
                                 if (isListening) {
@@ -128,7 +128,7 @@ fun DashBoardContent(
                         }
                     }) {
                         Icon(imageVector = Icons.Filled.Settings, contentDescription = "setting")
-                    }
+                    }*/
                 },
                 title = { Text(text = "Translator", fontWeight = FontWeight.Medium) },
             )
@@ -304,7 +304,7 @@ fun DashBoardContent(
                             onClick = { navigateToFavoriteScreen() }
                         )
                     }
-                    Row() {
+                  /*  Row() {
                         DashBoardPageItem1(
                             modifier = Modifier.weight(1f),
                             startImg = Res.drawable.icn_feedback,
@@ -337,7 +337,7 @@ fun DashBoardContent(
                             title = "Rate Us",
                             onClick = {}
                         )
-                    }
+                    }*/
                 }
                 Spacer(modifier = Modifier.height(10.sdp))
             }
@@ -358,7 +358,7 @@ fun DashBoardPageItem1(
 ) {
     Box(
         modifier = modifier
-            .padding(horizontal = 4.sdp)
+            .padding(horizontal = 10.sdp)
             .clip(RoundedCornerShape(12.sdp))
             .fillMaxWidth()
             .background(bgColor)

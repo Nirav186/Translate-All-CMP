@@ -97,14 +97,14 @@ kotlin {
 }
 
 android {
-    namespace = "com.translate"
+    namespace = "com.all.language.translate.speech.text"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
-        applicationId = "com.translate"
+        applicationId = "com.all.language.translate.speech.text"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

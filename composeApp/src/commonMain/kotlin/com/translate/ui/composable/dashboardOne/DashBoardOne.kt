@@ -23,14 +23,14 @@ class DashBoardScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
 
-        val factory = rememberPermissionsControllerFactory()
-        val controller = remember(factory) {
-            factory.createPermissionsController()
-        }
+//        val factory = rememberPermissionsControllerFactory()
+//        val controller = remember(factory) {
+//            factory.createPermissionsController()
+//        }
 
-        BindEffect(controller)
+//        BindEffect(controller)
 
-        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(controller) }
+        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(/*controller*/) }
         DashBoardContent(
             dashBoardViewModel = dashBoardViewModel,
             navigateToLanguageSelection = {

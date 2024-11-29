@@ -1,4 +1,4 @@
-package com.translate
+package com.all.language.translate.speech.text
 
 import android.os.Build
 
