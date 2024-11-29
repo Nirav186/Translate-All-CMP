@@ -20,10 +20,11 @@ kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.7.1"
 multiplatformSettingsNoArg = "1.0.0"
 mvvmCore = "0.16.1"
-room = "2.7.0-alpha07"
-ksp = "2.0.20-RC-1.0.24"
+room = "2.7.0-alpha11"
+ksp = "2.1.0-1.0.29"
 sdpSspComposeMultiplatform = "1.0.4"
 sqlite = "2.5.0-SNAPSHOT"
+google-play-services = "23.4.0"
 
 #Navigation
 navigationCompose = "2.8.0-rc01"
@@ -32,6 +33,7 @@ voyager = "1.1.0-beta02"
 
 ktor-client = "2.3.11"
 lifecycleViewModel = "2.8.0-rc01"
+moko = "0.18.0"
 
 [libraries]
 cmptoast = { module = "network.chaintech:cmptoast", version.ref = "cmptoast" }
@@ -82,6 +84,10 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
+google-playServices-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "google-play-services" }
+moko-permissions = { module = "dev.icerock.moko:permissions", version.ref = "moko" }
+moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
