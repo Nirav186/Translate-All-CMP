@@ -1,6 +1,5 @@
 package com.all.language.translate.speech.text
 
-import com.all.language.translate.speech.text.Platform
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {

@@ -1,7 +1,9 @@
 package com.all.language.translate.speech.text.ui.composable.translate
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,18 +11,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.VolumeOff
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarOutline
@@ -64,9 +63,11 @@ import com.all.language.translate.speech.text.ui.composable.dashboardOne.DashBoa
 import com.all.language.translate.speech.text.ui.composable.selection.LanguageSelectionScreen
 import com.all.language.translate.speech.text.utils.Constant
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
-import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
+import org.jetbrains.compose.resources.painterResource
+import translate.composeapp.generated.resources.Res
+import translate.composeapp.generated.resources.ic_arroe_down_small
 
 class TranslateScreen(private val history: History? = null) : Screen {
     @Composable
@@ -111,39 +112,32 @@ fun TranslateScreenContent(
 ) {
     val historyLocal by translateViewModel.history.collectAsState()
     val clipboardManager = LocalClipboardManager.current
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.surface,
-                    actionIconContentColor = MaterialTheme.colorScheme.surface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.surface
-                ),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        onBack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "setting"
-                        )
-                    }
-                },
-                title = { Text(text = "Translate") },
-            )
-        }
-    ) {
+    Scaffold(topBar = {
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.surface,
+                actionIconContentColor = MaterialTheme.colorScheme.surface,
+                navigationIconContentColor = MaterialTheme.colorScheme.surface
+            ),
+            navigationIcon = {
+                IconButton(onClick = {
+                    onBack()
+                }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "setting"
+                    )
+                }
+            },
+            title = { Text(text = "Translate") },
+        )
+    }) {
         Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.padding(it).fillMaxSize().verticalScroll(rememberScrollState())
         ) {
             Card(
-                modifier = Modifier
-                    .padding(horizontal = 8.sdp, vertical = 4.sdp)
-                    .fillMaxWidth()
+                modifier = Modifier.padding(horizontal = 8.sdp, vertical = 4.sdp).fillMaxWidth()
                     .height(40.sdp),
                 elevation = CardDefaults.cardElevation(1.sdp),
                 colors = CardDefaults.cardColors(
@@ -162,7 +156,8 @@ fun TranslateScreenContent(
                         Text(text = selectedFromLang.name)
                         Spacer(modifier = Modifier.width(2.sdp))
                         Icon(
-                            imageVector = Icons.Filled.ArrowDropDown,
+                            modifier = Modifier.size(14.sdp),
+                            painter = painterResource(Res.drawable.ic_arroe_down_small),
                             contentDescription = "drop down"
                         )
                     }
@@ -177,7 +172,8 @@ fun TranslateScreenContent(
                         Text(text = selectedToLang.name)
                         Spacer(modifier = Modifier.width(2.sdp))
                         Icon(
-                            imageVector = Icons.Filled.ArrowDropDown,
+                            modifier = Modifier.size(14.sdp),
+                            painter = painterResource(Res.drawable.ic_arroe_down_small),
                             contentDescription = "drop down"
                         )
                     }
@@ -185,58 +181,18 @@ fun TranslateScreenContent(
             }
 
             Card(
-                modifier = Modifier
-                    .padding(horizontal = 8.sdp, vertical = 4.sdp)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(horizontal = 8.sdp, vertical = 4.sdp).fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(1.sdp),
                 colors = CardDefaults.cardColors(
                     containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(0.dp)
                 ),
                 shape = RoundedCornerShape(8.sdp),
             ) {
-                Column(
+                Box(
                     modifier = Modifier.padding(horizontal = 4.sdp)
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                       /* IconButton(onClick = {
-                            if (selectedFromLang.isActive.not()) {
-                                showToast(message = "Speech output isn't available for ${selectedFromLang.name}")
-                            }
-                        }) {
-                            Icon(
-                                imageVector = if (historyLocal.originalText.isEmpty().not()
-                                ) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
-                                contentDescription = ""
-                            )
-                        }*/
-//                        Text(text = selectedFromLang.name, fontSize = 11.ssp)
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        if (historyLocal.originalText.isEmpty().not()) {
-                            IconButton(
-                                onClick = {
-                                    translateViewModel.clear()
-                                }) {
-                                Icon(imageVector = Icons.Filled.Close, contentDescription = "close")
-                            }
-                        }
-
-                        if (historyLocal.originalText.isEmpty()) {
-                           /* IconButton(
-                                onClick = { }) {
-                                Icon(imageVector = Icons.Filled.Mic, contentDescription = "mic")
-                            }*/
-                        }
-                    }
-
-                    TextArea(
-                        modifier = Modifier
-                            .padding(horizontal = 8.sdp)
-                            .fillMaxWidth()
-                            .heightIn(min = 130.sdp, max = 150.sdp),
+                    TextArea(modifier = Modifier.padding(8.sdp).fillMaxWidth()
+                        .heightIn(min = 130.sdp, max = 150.sdp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -246,39 +202,61 @@ fun TranslateScreenContent(
                         ),
                         placeholder = {
                             Text(
-                                text = "Enter your text",
-                                fontSize = 14.ssp
+                                text = "Enter your text", fontSize = 14.ssp
                             )
                         },
                         text = historyLocal.originalText,
                         onValueChange = { q ->
                             translateViewModel.updateOriginalText(q)
-                        }
-                    )
+                        })
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        /* IconButton(onClick = {
+                             if (selectedFromLang.isActive.not()) {
+                                 showToast(message = "Speech output isn't available for ${selectedFromLang.name}")
+                             }
+                         }) {
+                             Icon(
+                                 imageVector = if (historyLocal.originalText.isEmpty().not()
+                                 ) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
+                                 contentDescription = ""
+                             )
+                         }
+                        Text(text = selectedFromLang.name, fontSize = 11.ssp)*/
+                        Spacer(modifier = Modifier.weight(1f))
+                        if (historyLocal.originalText.isEmpty().not()) {
+                            IconButton(onClick = {
+                                translateViewModel.clear()
+                            }) {
+                                Icon(imageVector = Icons.Filled.Close, contentDescription = "close")
+                            }
+                        }/* if (historyLocal.originalText.isEmpty()) {
+                              IconButton(
+                                  onClick = { }) {
+                                  Icon(imageVector = Icons.Filled.Mic, contentDescription = "mic")
+                              }
+                         }*/
+                    }
 
                     if (historyLocal.originalText.isEmpty().not()) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(4.sdp),
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            Button(
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.surface
-                                ),
-                                shape = RoundedCornerShape(8.sdp),
-                                onClick = {
-                                    translateViewModel.translate()
-                                }
-                            ) {
-                                Text(
-                                    modifier = Modifier.padding(vertical = 4.sdp),
-                                    text = "Translate",
-                                    fontSize = 16.ssp,
-                                )
-                            }
+                        Button(modifier = Modifier.padding(4.sdp).align(Alignment.BottomEnd),
+                            contentPadding = PaddingValues(horizontal = 8.sdp, vertical = 4.sdp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.surface
+                            ),
+                            shape = RoundedCornerShape(8.sdp),
+                            onClick = {
+                                translateViewModel.translate()
+                            }) {
+                            Text(
+                                modifier = Modifier.padding(vertical = 4.sdp),
+                                text = "Translate",
+                                fontSize = 14.ssp,
+                            )
                         }
                     }
                 }
@@ -286,24 +264,22 @@ fun TranslateScreenContent(
 
             if (historyLocal.translateText.isEmpty().not()) {
                 Card(
-                    modifier = Modifier
-                        .padding(horizontal = 8.sdp, vertical = 4.sdp)
-                        .heightIn(min = 130.sdp, max = 150.sdp)
-                        .fillMaxWidth(),
+                    modifier = Modifier.padding(horizontal = 8.sdp, vertical = 4.sdp)
+                        .heightIn(min = 130.sdp, max = 150.sdp).fillMaxWidth(),
                     elevation = CardDefaults.cardElevation(1.sdp),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(0.dp)
                     ),
                     shape = RoundedCornerShape(8.sdp),
                 ) {
-                    Column(
-                        modifier = Modifier.padding(horizontal = 4.sdp)
+                    Box(
+                        modifier = Modifier.fillMaxSize().padding(horizontal = 4.sdp)
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            /*IconButton(onClick = {
+                        /* Row(
+                             modifier = Modifier.fillMaxWidth(),
+                             verticalAlignment = Alignment.CenterVertically
+                         ) {
+                             *//*IconButton(onClick = {
                                 if (selectedFromLang.isActive.not()) {
                                     showToast(message = "Speech output isn't available for ${historyLocal.toLang}")
                                 }else{
@@ -315,32 +291,34 @@ fun TranslateScreenContent(
                                         Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                                     contentDescription = ""
                                 )
-                            }*/
+                            }*//*
                             Text(text = selectedToLang.name, fontSize = 11.ssp)
                             Spacer(modifier = Modifier.weight(1f))
-
-                            IconButton(onClick = {
-                                translateViewModel.toggleFavorite()
-                            }) {
-                                Icon(
-                                    imageVector = if (historyLocal.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
-                                    contentDescription = "star",
-                                    tint = if (historyLocal.isFavorite) Color.Yellow else Color.Unspecified
-                                )
-                            }
-                        }
+                        }*/
 
                         Text(
                             modifier = Modifier
-                                .padding(horizontal = 8.sdp)
-                                .fillMaxWidth()
-                                .weight(1f),
+                                .padding(8.sdp)
+                                .fillMaxWidth(),
                             text = historyLocal.translateText,
                             maxLines = 8
                         )
 
+                        IconButton(
+                            modifier = Modifier.align(Alignment.TopEnd),
+                            onClick = {
+                                translateViewModel.toggleFavorite()
+                            }) {
+                            Icon(
+                                imageVector = if (historyLocal.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
+                                contentDescription = "star",
+                                tint = if (historyLocal.isFavorite) Color.Yellow else Color.Unspecified
+                            )
+                        }
+
                         Row(
                             modifier = Modifier
+                                .align(Alignment.BottomStart)
                                 .fillMaxWidth()
                                 .padding(4.sdp),
                             horizontalArrangement = Arrangement.End
@@ -359,8 +337,7 @@ fun TranslateScreenContent(
                             }) {
                                 Icon(imageVector = Icons.Filled.Share, contentDescription = "share")
                             }
-                            Spacer(modifier = Modifier.height(5.sdp))
-                            /*         IconButton(onClick = {  }) {
+                            Spacer(modifier = Modifier.height(5.sdp))/*         IconButton(onClick = {  }) {
                                 Icon(
                                     imageVector = Icons.Filled.CropFree,
                                     contentDescription = "Expand"
