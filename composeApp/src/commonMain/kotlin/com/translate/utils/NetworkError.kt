@@ -11,4 +11,3 @@ enum class NetworkError : Error {
     SERIALIZATION,
     UNKNOWN;
 }
-

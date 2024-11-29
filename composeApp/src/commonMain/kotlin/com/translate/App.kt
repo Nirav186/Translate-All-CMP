@@ -22,9 +22,8 @@ fun App(
     dictionaryClient: DictionaryClient,
 ) {
     Constant.historyDao = historyDao
-    Constant.translationClient = translationClient
     Constant.dictionaryClient = dictionaryClient
-    Constant.client = translationClient
+    Constant.translationClient = translationClient
     Constant.textToSpeechService = textToSpeechService
     Constant.speechToTextService = speechToTextService
     TranslateAllLanguageTheme {

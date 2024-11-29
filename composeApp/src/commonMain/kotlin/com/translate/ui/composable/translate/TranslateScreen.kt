@@ -68,9 +68,7 @@ import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 
-class TranslateScreen(
-    private val history: History? = null
-) : Screen {
+class TranslateScreen(private val history: History? = null) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -112,7 +110,6 @@ fun TranslateScreenContent(
     translateViewModel: TranslateViewModel
 ) {
     val historyLocal by translateViewModel.history.collectAsState()
-    LocalClipboardManager.current
     val clipboardManager = LocalClipboardManager.current
     Scaffold(
         topBar = {
@@ -210,8 +207,7 @@ fun TranslateScreenContent(
                             }
                         }) {
                             Icon(
-                                imageVector = if (historyLocal.originalText.isEmpty()
-                                        .not()
+                                imageVector = if (historyLocal.originalText.isEmpty().not()
                                 ) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                                 contentDescription = ""
                             )

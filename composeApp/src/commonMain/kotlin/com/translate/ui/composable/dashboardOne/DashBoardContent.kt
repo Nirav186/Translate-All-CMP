@@ -246,9 +246,7 @@ fun DashBoardContent(
                         bgColor = Color(0x19d28eea),
                         textColor = Color(0xFF6f557a),
                         title = "Quote",
-                        onClick ={
-                            navigateToQuotesScreen()
-                        }
+                        onClick = { navigateToQuotesScreen() }
                     )
                     DashBoardPageItem1(
                         startImg = Res.drawable.icn_idioms,
