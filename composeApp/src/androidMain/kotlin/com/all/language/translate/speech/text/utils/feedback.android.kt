@@ -10,7 +10,7 @@ import com.all.language.translate.speech.text.MainActivity.Companion.context
 actual fun sendFeedback() {
     val emailAddress = "manthanjivani.apps@gmail.com"
     val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-        setDataAndType(Uri.parse("mailto:"),"message/rfc822")
+        data = Uri.parse("mailto:")
         putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
         putExtra(Intent.EXTRA_SUBJECT, "Feedback")
         putExtra(Intent.EXTRA_TEXT, "")

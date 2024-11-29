@@ -17,10 +17,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -77,6 +80,7 @@ fun DashBoardContent(
     navigateToFavoriteScreen: () -> Unit,
     navigateToDictionaryScreen: () -> Unit,
     navigateToQuotesScreen: () -> Unit,
+    navigateToSettingScreen: () -> Unit,
 ) {
     val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
     val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
@@ -94,8 +98,8 @@ fun DashBoardContent(
                     navigationIconContentColor = MaterialTheme.colorScheme.surface
                 ),
                 actions = {
-                    /* IconButton(onClick = {
-                         when (dashBoardViewModel.permissionState) {
+                     IconButton(onClick = {
+                       /*  when (dashBoardViewModel.permissionState) {
                              PermissionState.Granted -> {
                                  if (isListening) {
                                      isListening = false
@@ -122,10 +126,11 @@ fun DashBoardContent(
                              else -> {
                                  dashBoardViewModel.provideOrRequestRecordAudioPermission()
                              }
-                         }
+                         }*/
+                         navigateToSettingScreen()
                      }) {
                          Icon(imageVector = Icons.Filled.Settings, contentDescription = "setting")
-                     }*/
+                     }
                 },
                 title = {
                     Text(
