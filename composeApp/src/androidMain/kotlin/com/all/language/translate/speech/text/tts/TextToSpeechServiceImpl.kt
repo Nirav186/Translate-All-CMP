@@ -17,7 +17,8 @@ actual class TextToSpeechService(private val context: Context) : TextToSpeech.On
         }
     }
 
-    actual fun speak(text: String) {
-        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+    actual fun speak(text: String) : Int? {
+//        tts?.language = Locale("","") // 1. language 2. country code
+        return tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 }

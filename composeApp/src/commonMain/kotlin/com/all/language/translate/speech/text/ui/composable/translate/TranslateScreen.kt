@@ -18,8 +18,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarOutline
@@ -42,7 +45,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,7 +67,10 @@ import com.all.language.translate.speech.text.ui.composable.components.TextArea
 import com.all.language.translate.speech.text.ui.composable.dashboardOne.DashBoardViewModel
 import com.all.language.translate.speech.text.ui.composable.selection.LanguageSelectionScreen
 import com.all.language.translate.speech.text.utils.Constant
+import dev.icerock.moko.permissions.PermissionState
+import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.painterResource
@@ -73,12 +81,15 @@ class TranslateScreen(private val history: History? = null) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+
         val factory = rememberPermissionsControllerFactory()
         val controller = remember(factory) {
             factory.createPermissionsController()
         }
 
-        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(/*controller*/) }
+        BindEffect(controller)
+
+        val dashBoardViewModel = rememberScreenModel { DashBoardViewModel(controller) }
         val translateViewModel = rememberScreenModel { TranslateViewModel() }
 
         val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
@@ -112,6 +123,8 @@ fun TranslateScreenContent(
 ) {
     val historyLocal by translateViewModel.history.collectAsState()
     val clipboardManager = LocalClipboardManager.current
+    var isListening by remember { mutableStateOf(false) }
+
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -191,8 +204,12 @@ fun TranslateScreenContent(
                 Box(
                     modifier = Modifier.padding(horizontal = 4.sdp)
                 ) {
-                    TextArea(modifier = Modifier.padding(8.sdp).fillMaxWidth()
-                        .heightIn(min = 130.sdp, max = 150.sdp),
+                    TextArea(
+                        modifier = Modifier
+                            .padding(8.sdp)
+                            .padding(top = 20.sdp)
+                            .fillMaxWidth()
+                            .heightIn(min = 130.sdp, max = 150.sdp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -202,7 +219,7 @@ fun TranslateScreenContent(
                         ),
                         placeholder = {
                             Text(
-                                text = "Enter your text", fontSize = 14.ssp
+                                text = "Enter your text", fontSize = 13.ssp
                             )
                         },
                         text = historyLocal.originalText,
@@ -214,18 +231,19 @@ fun TranslateScreenContent(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        /* IconButton(onClick = {
-                             if (selectedFromLang.isActive.not()) {
-                                 showToast(message = "Speech output isn't available for ${selectedFromLang.name}")
-                             }
-                         }) {
-                             Icon(
-                                 imageVector = if (historyLocal.originalText.isEmpty().not()
-                                 ) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
-                                 contentDescription = ""
-                             )
-                         }
-                        Text(text = selectedFromLang.name, fontSize = 11.ssp)*/
+                        IconButton(onClick = {
+                            if (selectedFromLang.isActive.not()) {
+                                showToast(message = "Speech output isn't available for ${selectedFromLang.name}")
+                            } else {
+                                Constant.textToSpeechService.speak(historyLocal.originalText)
+                            }
+                        }) {
+                            Icon(
+                                imageVector = if (historyLocal.originalText.isNotEmpty() && selectedFromLang.isActive) Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
+                                contentDescription = ""
+                            )
+                        }
+                        Text(text = selectedFromLang.name, fontSize = 11.ssp)
                         Spacer(modifier = Modifier.weight(1f))
                         if (historyLocal.originalText.isEmpty().not()) {
                             IconButton(onClick = {
@@ -233,12 +251,43 @@ fun TranslateScreenContent(
                             }) {
                                 Icon(imageVector = Icons.Filled.Close, contentDescription = "close")
                             }
-                        }/* if (historyLocal.originalText.isEmpty()) {
-                              IconButton(
-                                  onClick = { }) {
-                                  Icon(imageVector = Icons.Filled.Mic, contentDescription = "mic")
-                              }
-                         }*/
+                        }
+                        if (historyLocal.originalText.isEmpty()) {
+                            IconButton(
+                                onClick = {
+                                    when (dashBoardViewModel.permissionState) {
+                                        PermissionState.Granted -> {
+                                            if (isListening) {
+                                                isListening = false
+                                                Constant.speechToTextService.stopListening()
+                                            } else {
+                                                isListening = true
+                                                Constant.speechToTextService.startListening(
+                                                    onResult = { text ->
+                                                        showToast(text)
+                                                        isListening = false
+                                                    },
+                                                    onError = { errorMsg ->
+                                                        showToast(errorMsg)
+                                                        isListening = false
+                                                    }
+                                                )
+                                            }
+                                        }
+
+                                        PermissionState.DeniedAlways -> {
+                                            dashBoardViewModel.openAppSettings()
+                                        }
+
+                                        else -> {
+                                            dashBoardViewModel.provideOrRequestRecordAudioPermission()
+                                        }
+                                    }
+                                }
+                            ) {
+                                Icon(imageVector = Icons.Filled.Mic, contentDescription = "mic")
+                            }
+                        }
                     }
 
                     if (historyLocal.originalText.isEmpty().not()) {
@@ -275,30 +324,34 @@ fun TranslateScreenContent(
                     Box(
                         modifier = Modifier.fillMaxSize().padding(horizontal = 4.sdp)
                     ) {
-                        /* Row(
-                             modifier = Modifier.fillMaxWidth(),
-                             verticalAlignment = Alignment.CenterVertically
-                         ) {
-                             *//*IconButton(onClick = {
-                                if (selectedFromLang.isActive.not()) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(onClick = {
+                                if (selectedToLang.isActive.not()) {
                                     showToast(message = "Speech output isn't available for ${historyLocal.toLang}")
-                                }else{
-
+                                } else {
+                                    Constant.textToSpeechService.speak(historyLocal.translateText)
                                 }
                             }) {
                                 Icon(
-                                    imageVector = if (historyLocal.translateText.isEmpty().not())
+                                    imageVector = if (historyLocal.translateText.isNotEmpty() && selectedToLang.isActive)
                                         Icons.AutoMirrored.Filled.VolumeUp else Icons.AutoMirrored.Filled.VolumeOff,
                                     contentDescription = ""
                                 )
-                            }*//*
-                            Text(text = selectedToLang.name, fontSize = 11.ssp)
+                            }
+                            Text(
+                                text = selectedToLang.name,
+                                fontSize = 11.ssp
+                            )
                             Spacer(modifier = Modifier.weight(1f))
-                        }*/
+                        }
 
                         Text(
                             modifier = Modifier
                                 .padding(8.sdp)
+                                .padding(top = 18.sdp)
                                 .fillMaxWidth(),
                             text = historyLocal.translateText,
                             maxLines = 8
@@ -337,12 +390,7 @@ fun TranslateScreenContent(
                             }) {
                                 Icon(imageVector = Icons.Filled.Share, contentDescription = "share")
                             }
-                            Spacer(modifier = Modifier.height(5.sdp))/*         IconButton(onClick = {  }) {
-                                Icon(
-                                    imageVector = Icons.Filled.CropFree,
-                                    contentDescription = "Expand"
-                                )
-                            }*/
+                            Spacer(modifier = Modifier.height(5.sdp))
                         }
                     }
                 }

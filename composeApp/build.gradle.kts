@@ -55,7 +55,6 @@ kotlin {
 
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
-            implementation(libs.kotlinx.serialization.json)
             implementation(libs.mvvm.core)
 
 //            implementation("network.chaintech:cmp-preference:1.0.0")

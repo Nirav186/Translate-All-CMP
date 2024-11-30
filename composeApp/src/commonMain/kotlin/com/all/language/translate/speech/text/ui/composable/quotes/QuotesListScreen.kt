@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Translate
@@ -56,6 +57,7 @@ import com.all.language.translate.speech.text.theme.getMontBFont
 import com.all.language.translate.speech.text.ui.composable.components.EmptyScreen
 import com.all.language.translate.speech.text.ui.composable.components.TypewriterText
 import com.all.language.translate.speech.text.ui.composable.translate.TranslateScreen
+import com.all.language.translate.speech.text.utils.Constant
 import com.all.language.translate.speech.text.utils.getQuoteIcon
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
@@ -187,7 +189,6 @@ fun QuotePageItem(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(horizontal = 10.sdp, vertical = 4.sdp),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
@@ -198,6 +199,16 @@ fun QuotePageItem(
                 contentDescription = "",
                 tint = MaterialTheme.colorScheme.primary
             )
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {
+                    Constant.textToSpeechService.speak(text)
+                }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.VolumeUp,
+                    contentDescription = ""
+                )
+            }
         }
         Row(
             modifier = Modifier
