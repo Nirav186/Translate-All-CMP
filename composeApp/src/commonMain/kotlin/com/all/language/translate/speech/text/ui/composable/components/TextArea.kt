@@ -38,7 +38,7 @@ fun TextArea(
 
     BasicTextField(
         value = text,
-        textStyle = TextStyle(fontSize = 16.ssp),
+        textStyle = TextStyle(fontSize = 14.ssp),
         onValueChange = onValueChange,
         modifier = modifier.background(color = Color.Transparent),
         interactionSource = interactionSource ?: MutableInteractionSource(),

@@ -17,16 +17,16 @@ import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.RequestCanceledException
 import kotlinx.coroutines.launch
 
-class DashBoardViewModel(/*private val controller: PermissionsController*/) : ScreenModel {
+class DashBoardViewModel(private val controller: PermissionsController) : ScreenModel {
 
-//    var permissionState by mutableStateOf(PermissionState.NotDetermined)
-//        private set
-//
-//    init {
-//        screenModelScope.launch {
-//            permissionState = controller.getPermissionState(Permission.RECORD_AUDIO)
-//        }
-//    }
+    var permissionState by mutableStateOf(PermissionState.NotDetermined)
+        private set
+
+    init {
+        screenModelScope.launch {
+            permissionState = controller.getPermissionState(Permission.RECORD_AUDIO)
+        }
+    }
 
     fun swapSelectedLanguage(selectedFromLang: Language, selectedToLang: Language) {
         val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
@@ -35,22 +35,22 @@ class DashBoardViewModel(/*private val controller: PermissionsController*/) : Sc
         keyValueStorage.toLanguageCode = fromLang.code
     }
 
-//    fun provideOrRequestRecordAudioPermission() {
-//        screenModelScope.launch {
-//            try {
-//                controller.providePermission(Permission.RECORD_AUDIO)
-//                permissionState = PermissionState.Granted
-//            } catch(e: DeniedAlwaysException) {
-//                permissionState = PermissionState.DeniedAlways
-//            } catch(e: DeniedException) {
-//                permissionState = PermissionState.Denied
-//            } catch(e: RequestCanceledException) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-//
-//    fun openAppSettings() {
-//        controller.openAppSettings()
-//    }
+    fun provideOrRequestRecordAudioPermission() {
+        screenModelScope.launch {
+            try {
+                controller.providePermission(Permission.RECORD_AUDIO)
+                permissionState = PermissionState.Granted
+            } catch(e: DeniedAlwaysException) {
+                permissionState = PermissionState.DeniedAlways
+            } catch(e: DeniedException) {
+                permissionState = PermissionState.Denied
+            } catch(e: RequestCanceledException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun openAppSettings() {
+        controller.openAppSettings()
+    }
 }

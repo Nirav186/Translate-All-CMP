@@ -2,6 +2,7 @@ package com.all.language.translate.speech.text
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +15,7 @@ import com.all.language.translate.speech.text.data.networking.createHttpClient
 import com.all.language.translate.speech.text.database.getTranslateDatabase
 import com.all.language.translate.speech.text.tts.SpeechToTextService
 import com.all.language.translate.speech.text.tts.TextToSpeechService
+import com.all.language.translate.speech.text.utils.Constant.speechToTextService
 import io.ktor.client.engine.okhttp.OkHttp
 
 class MainActivity : ComponentActivity() {
@@ -46,5 +48,10 @@ class MainActivity : ComponentActivity() {
                 speechToTextService = SpeechToTextService(this)
             )
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        speechToTextService.handleActivityResult(requestCode, resultCode, data)
     }
 }

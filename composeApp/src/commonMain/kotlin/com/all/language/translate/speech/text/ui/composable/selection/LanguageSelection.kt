@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -214,19 +216,19 @@ fun LanguageCard(
                     )
                 }
             }
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxHeight()
-//                    .width(20.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                if (language.isActive && language.popularityRank != 0) {
-//                    Icon(
-//                        imageVector = Icons.AutoMirrored.Filled.VolumeUp,
-//                        contentDescription = "voice"
-//                    )
-//                }
-//            }
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(20.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (language.isActive && language.popularityRank != 0) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.VolumeUp,
+                        contentDescription = "voice"
+                    )
+                }
+            }
         }
     }
 }
