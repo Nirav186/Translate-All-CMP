@@ -5,8 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.SyncAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +15,9 @@ import androidx.compose.ui.draw.rotate
 import com.all.language.translate.speech.text.data.model.Language
 import com.all.language.translate.speech.text.ui.composable.dashboardOne.DashBoardViewModel
 import network.chaintech.sdpcomposemultiplatform.sdp
+import org.jetbrains.compose.resources.painterResource
+import translate.composeapp.generated.resources.Res
+import translate.composeapp.generated.resources.ic_arrow_both_side
 
 @Composable
 fun RotatingSwapIcon(
@@ -32,7 +33,7 @@ fun RotatingSwapIcon(
 
     Icon(
         modifier = Modifier
-            .padding(horizontal = 12.sdp)
+            .padding(horizontal = 8.sdp)
             .clickable(
                 onClick = {
                     isRotated = !isRotated
@@ -40,7 +41,7 @@ fun RotatingSwapIcon(
                 }
             )
             .rotate(rotation),
-        imageVector = Icons.Outlined.SyncAlt,
+        painter = painterResource(Res.drawable.ic_arrow_both_side),
         contentDescription = null
     )
 }

@@ -36,7 +36,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.google.playServices.ads)
+//            implementation(libs.google.playServices.ads)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,34 +55,34 @@ kotlin {
 
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
-            implementation("dev.icerock.moko:mvvm-core:0.16.1")
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.mvvm.core)
 
 //            implementation("network.chaintech:cmp-preference:1.0.0")
 //            implementation(libs.kotlinx.serialization.json.jvm)
 
             // #1 - Basic settings
-            implementation("com.russhwolf:multiplatform-settings-no-arg:1.0.0")
+            implementation(libs.multiplatform.settings.no.arg)
 
             // #2 - For custom class serialization
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-            implementation("com.russhwolf:multiplatform-settings-serialization:1.0.0")
+            implementation(libs.kotlinx.serialization.json.v141)
+            implementation(libs.multiplatform.settings.serialization)
 
             // #3 - For observing values as flows
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-            implementation("com.russhwolf:multiplatform-settings-coroutines:1.0.0")
+            implementation(libs.kotlinx.coroutines.core.v164)
+            implementation(libs.multiplatform.settings.coroutines)
 
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+            implementation(libs.kotlinx.datetime)
 
-            implementation("network.chaintech:sdp-ssp-compose-multiplatform:1.0.4")
-            implementation("network.chaintech:cmptoast:1.0.0")
+            implementation(libs.sdp.ssp.compose.multiplatform)
+            implementation(libs.cmptoast)
 
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
 
-            implementation("com.squareup.retrofit2:retrofit:2.9.0")
+            implementation(libs.retrofit)
 
-            implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+            implementation(libs.coil.compose)
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
@@ -108,7 +108,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
     }
     packaging {
         resources {

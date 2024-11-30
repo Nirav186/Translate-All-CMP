@@ -18,7 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,34 +39,35 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
-import com.all.language.translate.speech.text.ads.AdMobBanner
 import com.all.language.translate.speech.text.data.storage.KeyValueStorage
 import com.all.language.translate.speech.text.data.storage.KeyValueStorageImpl
 import com.all.language.translate.speech.text.ui.composable.components.RotatingSwapIcon
 import com.all.language.translate.speech.text.utils.Constant
 import com.all.language.translate.speech.text.utils.getDrawableByName
-import dev.icerock.moko.permissions.PermissionState
-import multiplatform.network.cmptoast.showToast
+import com.all.language.translate.speech.text.utils.rateApp
+import com.all.language.translate.speech.text.utils.sendFeedback
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import translate.composeapp.generated.resources.Res
+import translate.composeapp.generated.resources.app_name
+import translate.composeapp.generated.resources.ic_arroe_down_small
 import translate.composeapp.generated.resources.ic_favorite_png
+import translate.composeapp.generated.resources.ic_feedback_png
 import translate.composeapp.generated.resources.ic_history_png
 import translate.composeapp.generated.resources.ic_idioms_png
 import translate.composeapp.generated.resources.ic_quotes_png
+import translate.composeapp.generated.resources.ic_rate_png
 import translate.composeapp.generated.resources.icn_dictionary_png
-import translate.composeapp.generated.resources.icn_feedback
-import translate.composeapp.generated.resources.icn_quotes
-import translate.composeapp.generated.resources.icn_rate
 
 @ExperimentalMaterial3Api
 @Composable
@@ -80,6 +80,7 @@ fun DashBoardContent(
     navigateToFavoriteScreen: () -> Unit,
     navigateToDictionaryScreen: () -> Unit,
     navigateToQuotesScreen: () -> Unit,
+    navigateToSettingScreen: () -> Unit,
 ) {
     val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
     val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
@@ -97,40 +98,46 @@ fun DashBoardContent(
                     navigationIconContentColor = MaterialTheme.colorScheme.surface
                 ),
                 actions = {
-                   /* IconButton(onClick = {
-                        when (dashBoardViewModel.permissionState) {
-                            PermissionState.Granted -> {
-                                if (isListening) {
-                                    isListening = false
-                                    Constant.speechToTextService.stopListening()
-                                } else {
-                                    isListening = true
-                                    Constant.speechToTextService.startListening(
-                                        onResult = { text ->
-                                            showToast(text)
-                                            isListening = false
-                                        },
-                                        onError = { errorMsg ->
-                                            showToast(errorMsg)
-                                            isListening = false
-                                        }
-                                    )
-                                }
-                            }
+                     IconButton(onClick = {
+                       /*  when (dashBoardViewModel.permissionState) {
+                             PermissionState.Granted -> {
+                                 if (isListening) {
+                                     isListening = false
+                                     Constant.speechToTextService.stopListening()
+                                 } else {
+                                     isListening = true
+                                     Constant.speechToTextService.startListening(
+                                         onResult = { text ->
+                                             showToast(text)
+                                             isListening = false
+                                         },
+                                         onError = { errorMsg ->
+                                             showToast(errorMsg)
+                                             isListening = false
+                                         }
+                                     )
+                                 }
+                             }
 
-                            PermissionState.DeniedAlways -> {
-                                dashBoardViewModel.openAppSettings()
-                            }
+                             PermissionState.DeniedAlways -> {
+                                 dashBoardViewModel.openAppSettings()
+                             }
 
-                            else -> {
-                                dashBoardViewModel.provideOrRequestRecordAudioPermission()
-                            }
-                        }
-                    }) {
-                        Icon(imageVector = Icons.Filled.Settings, contentDescription = "setting")
-                    }*/
+                             else -> {
+                                 dashBoardViewModel.provideOrRequestRecordAudioPermission()
+                             }
+                         }*/
+                         navigateToSettingScreen()
+                     }) {
+                         Icon(imageVector = Icons.Filled.Settings, contentDescription = "setting")
+                     }
                 },
-                title = { Text(text = "Translator", fontWeight = FontWeight.Medium) },
+                title = {
+                    Text(
+                        text = stringResource(Res.string.app_name),
+                        fontWeight = FontWeight.Medium
+                    )
+                },
             )
         }
     ) {
@@ -225,34 +232,32 @@ fun DashBoardContent(
 
                 DashBoardPageItem(
                     modifier = Modifier
-                        .padding(8.sdp)
+                        .padding(10.sdp)
                         .fillMaxWidth()
                         .background(Color(0xFFE3F2ED), RoundedCornerShape(10.sdp))
-                        .clip(RoundedCornerShape(10.sdp)),
+                        .clip(RoundedCornerShape(12.sdp)),
                     startImg = Res.drawable.icn_dictionary_png,
                     textColor = Color(0xFF32574a),
                     title = "Dictionary",
-                    imageSize = 68.sdp,
                     onClick = { navigateToDictionaryScreen() }
                 )
 
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(4.sdp)
+                    modifier = Modifier.padding(horizontal = 10.sdp),
+                    verticalArrangement = Arrangement.spacedBy(10.sdp)
                 ) {
-                    Row() {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.sdp)
+                    ) {
                         DashBoardPageItem1(
                             modifier = Modifier.weight(1f),
                             startImg = Res.drawable.ic_quotes_png,
-//                            bgColor = Color(0x19d28eea),
                             bgColor = Brush.linearGradient(
-                                colors = listOf(Color(0xFFE4FAFFCC), Color(0xFFEBEFFF1CC)),
-                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                                end = androidx.compose.ui.geometry.Offset(
-                                    0f,
-                                    Float.POSITIVE_INFINITY
-                                )
+                                colors = listOf(Color(0xFFe4fcfb), Color(0xFFc3e9fc)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
-                            textColor = Color(0xFF6f557a),
+                            textColor = Color.Black,
                             title = "Quote",
                             onClick = { navigateToQuotesScreen() }
                         )
@@ -260,31 +265,27 @@ fun DashBoardContent(
                             modifier = Modifier.weight(1f),
                             startImg = Res.drawable.ic_idioms_png,
                             bgColor = Brush.linearGradient(
-                                colors = listOf(Color(0xEED4FFCC), Color(0xCC99FFCC)),
-                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                                end = androidx.compose.ui.geometry.Offset(
-                                    0f,
-                                    Float.POSITIVE_INFINITY
-                                )
+                                colors = listOf(Color(0xFFefdafe), Color(0xFFd6affe)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
-                            textColor = Color(0xFF5e664f),
+                            textColor = Color.Black,
                             title = "Idioms",
                             onClick = { navigateToIdiomsListScreen() }
                         )
                     }
-                    Row() {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.sdp)
+                    ) {
                         DashBoardPageItem1(
                             modifier = Modifier.weight(1f),
                             startImg = Res.drawable.ic_history_png,
                             bgColor = Brush.linearGradient(
-                                colors = listOf(Color(0xFFE4ECCC), Color(0xFFB8C1CC)),
-                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                                end = androidx.compose.ui.geometry.Offset(
-                                    0f,
-                                    Float.POSITIVE_INFINITY
-                                )
+                                colors = listOf(Color(0xFFfde7ee), Color(0xFFfbc8ce)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
-                            textColor = Color(0xFF415968),
+                            textColor = Color.Black,
                             title = "History",
                             onClick = { navigateToHistoryScreen() }
                         )
@@ -292,54 +293,44 @@ fun DashBoardContent(
                             modifier = Modifier.weight(1f),
                             startImg = Res.drawable.ic_favorite_png,
                             bgColor = Brush.linearGradient(
-                                colors = listOf(Color(0xE9E4FFCC), Color(0xC5B8FFCC)),
-                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                                end = androidx.compose.ui.geometry.Offset(
-                                    0f,
-                                    Float.POSITIVE_INFINITY
-                                )
+                                colors = listOf(Color(0xFFebe7ff), Color(0xFFd2c7fe)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
-                            textColor = Color(0xFF684143),
-                            title = "Favourite",
+                            textColor = Color.Black,
+                            title = "Favorite",
                             onClick = { navigateToFavoriteScreen() }
                         )
                     }
-                  /*  Row() {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.sdp)
+                    ) {
                         DashBoardPageItem1(
                             modifier = Modifier.weight(1f),
-                            startImg = Res.drawable.icn_feedback,
+                            startImg = Res.drawable.ic_feedback_png,
                             bgColor = Brush.linearGradient(
-                                colors = listOf(Color(0x198699ff), Color(0x198699ff)),
-                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                                end = androidx.compose.ui.geometry.Offset(
-                                    0f,
-                                    Float.POSITIVE_INFINITY
-                                )
+                                colors = listOf(Color(0xFFe6ffe2), Color(0xFFc5fec6)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
-//                            bgColor = Color(0x198699ff),
-                            textColor = Color(0xFF4f5574),
+                            textColor = Color.Black,
                             title = "Feedback",
-                            onClick = {}
+                            onClick = { sendFeedback() }
                         )
                         DashBoardPageItem1(
                             modifier = Modifier.weight(1f),
-                            startImg = Res.drawable.icn_rate,
-//                            bgColor = Color(0x33fdc956),
+                            startImg = Res.drawable.ic_rate_png,
                             bgColor = Brush.linearGradient(
-                                colors = listOf(Color(0x33fdc956), Color(0x33fdc956)),
-                                start = androidx.compose.ui.geometry.Offset(0f, 0f),
-                                end = androidx.compose.ui.geometry.Offset(
-                                    0f,
-                                    Float.POSITIVE_INFINITY
-                                )
+                                colors = listOf(Color(0xFFfce2b9), Color(0xFFf9c185)),
+                                start = Offset(0f, 0f),
+                                end = Offset(0f, Float.POSITIVE_INFINITY)
                             ),
-                            textColor = Color(0xFF64593f),
+                            textColor = Color.Black,
                             title = "Rate Us",
-                            onClick = {}
+                            onClick = { rateApp() }
                         )
-                    }*/
+                    }
                 }
-                Spacer(modifier = Modifier.height(10.sdp))
             }
 //            AdMobBanner(Modifier.fillMaxWidth())
         }
@@ -358,20 +349,19 @@ fun DashBoardPageItem1(
 ) {
     Box(
         modifier = modifier
-            .padding(horizontal = 10.sdp)
-            .clip(RoundedCornerShape(12.sdp))
             .fillMaxWidth()
+            .clip(RoundedCornerShape(12.sdp))
             .background(bgColor)
             .clickable(
                 onClick = onClick
             )
     ) {
         Row(
-            modifier = Modifier.padding(10.sdp),
+            modifier = Modifier.padding(8.sdp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.size(32.sdp),
+                modifier = Modifier.size(42.sdp),
                 painter = painterResource(startImg),
                 contentDescription = null
             )
@@ -380,7 +370,7 @@ fun DashBoardPageItem1(
                 modifier = Modifier.weight(1f),
                 text = title,
                 style = TextStyle(
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 14.ssp,
                     color = textColor ?: MaterialTheme.colorScheme.surface
                 )
@@ -396,7 +386,6 @@ fun DashBoardPageItem(
     textColor: Color? = null,
     title: String,
     onClick: () -> Unit,
-    imageSize: Dp? = null
 ) {
     Box(
         modifier = modifier
@@ -405,20 +394,19 @@ fun DashBoardPageItem(
             )
     ) {
         Row(
-            modifier = Modifier.padding(8.sdp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.padding(20.sdp).weight(1f),
                 text = title,
                 style = TextStyle(
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 16.ssp,
                     color = textColor ?: MaterialTheme.colorScheme.surface
                 )
             )
             Image(
-                modifier = Modifier.size(74.sdp),
+                modifier = Modifier.height(74.sdp),
                 painter = painterResource(startImg),
                 contentDescription = title
             )
@@ -461,13 +449,16 @@ fun DummyDropDown(
                 modifier = Modifier.weight(1f),
                 text = language,
                 fontWeight = FontWeight.Medium,
-                fontSize = 14.ssp,
+                fontSize = 12.ssp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Start
             )
-            Spacer(modifier = Modifier.width(2.sdp))
-            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "drop down")
+            Icon(
+                modifier = Modifier.size(14.sdp),
+                painter = painterResource(Res.drawable.ic_arroe_down_small),
+                contentDescription = "drop down"
+            )
         }
     }
 }
