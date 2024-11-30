@@ -264,7 +264,7 @@ fun TranslateScreenContent(
                                                 isListening = true
                                                 Constant.speechToTextService.startListening(
                                                     onResult = { text ->
-                                                        showToast(text)
+                                                        translateViewModel.updateOriginalText(text)
                                                         isListening = false
                                                     },
                                                     onError = { errorMsg ->
