@@ -8,14 +8,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.all.language.translate.speech.text.data.local.getTranslateDatabase
 import com.all.language.translate.speech.text.data.networking.DictionaryClient
-import com.google.android.gms.ads.MobileAds
 import com.all.language.translate.speech.text.data.networking.TranslationClient
 import com.all.language.translate.speech.text.data.networking.createHttpClient
-import com.all.language.translate.speech.text.database.getTranslateDatabase
 import com.all.language.translate.speech.text.tts.SpeechToTextService
 import com.all.language.translate.speech.text.tts.TextToSpeechService
-import io.ktor.client.engine.okhttp.OkHttp
+import com.google.android.gms.ads.MobileAds
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : ComponentActivity() {
 
@@ -24,12 +24,16 @@ class MainActivity : ComponentActivity() {
         lateinit var context: Context
     }
 
-    private val httpClient = createHttpClient(OkHttp.create())
+    private val httpClient = createHttpClient()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
         MobileAds.initialize(this)
-        val dao = getTranslateDatabase(applicationContext).getHistoryDao()
+        val dao = getTranslateDatabase(applicationContext)
+            .builder()
+            .setQueryCoroutineContext(Dispatchers.IO)
+            .build()
+            .getHistoryDao()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT, Color.TRANSPARENT
