@@ -37,7 +37,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.google.playServices.ads)
+//            implementation(libs.google.playServices.ads)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -56,7 +56,6 @@ kotlin {
 
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
-            implementation(libs.kotlinx.serialization.json)
             implementation(libs.mvvm.core)
 
 //            implementation("network.chaintech:cmp-preference:1.0.0")
@@ -109,7 +108,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.0.1"
     }
     packaging {
         resources {

@@ -1,14 +1,18 @@
 package com.all.language.translate.speech.text.tts
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.widget.Toast
+import java.util.Locale
 
 actual class SpeechToTextService(private val context: Context) : RecognitionListener {
-    private var speechRecognizer: SpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
+    private var speechRecognizer: SpeechRecognizer =
+        SpeechRecognizer.createSpeechRecognizer(context)
     private var onResultCallback: ((String) -> Unit)? = null
     private var onErrorCallback: ((String) -> Unit)? = null
 
@@ -20,12 +24,38 @@ actual class SpeechToTextService(private val context: Context) : RecognitionList
         onResultCallback = onResult
         onErrorCallback = onError
 
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+        if (!SpeechRecognizer.isRecognitionAvailable(context)) {
+            Toast.makeText(context, "Service not available", Toast.LENGTH_SHORT).show()
+        } else {
+            val intent =
+                Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                    putExtra(
+                        RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    )
+                    putExtra(RecognizerIntent.EXTRA_LANGUAGE,/*Locale.getDefault()*/"en-US")
+                    putExtra(RecognizerIntent.EXTRA_PROMPT, "  Speak Now")
+                }
+            (context as? Activity)?.startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
         }
-        speechRecognizer.startListening(intent)
     }
+
+    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == Activity.RESULT_OK) {
+            val results = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            val recognizedText = results?.firstOrNull() ?: ""
+            onResultCallback?.invoke(recognizedText)
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            onErrorCallback?.invoke("User canceled the speech input")
+        } else {
+            onErrorCallback?.invoke("Failed to recognize speech")
+        }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_SPEECH_INPUT = 100
+    }
+
 
     actual fun stopListening() {
         speechRecognizer.stopListening()

@@ -86,8 +86,6 @@ fun DashBoardContent(
     val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
     val selectedToLang by keyValueStorage.observableToLanguage.collectAsState(initial = Constant.languageList.first())
 
-    var isListening by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -99,34 +97,6 @@ fun DashBoardContent(
                 ),
                 actions = {
                      IconButton(onClick = {
-                       /*  when (dashBoardViewModel.permissionState) {
-                             PermissionState.Granted -> {
-                                 if (isListening) {
-                                     isListening = false
-                                     Constant.speechToTextService.stopListening()
-                                 } else {
-                                     isListening = true
-                                     Constant.speechToTextService.startListening(
-                                         onResult = { text ->
-                                             showToast(text)
-                                             isListening = false
-                                         },
-                                         onError = { errorMsg ->
-                                             showToast(errorMsg)
-                                             isListening = false
-                                         }
-                                     )
-                                 }
-                             }
-
-                             PermissionState.DeniedAlways -> {
-                                 dashBoardViewModel.openAppSettings()
-                             }
-
-                             else -> {
-                                 dashBoardViewModel.provideOrRequestRecordAudioPermission()
-                             }
-                         }*/
                          navigateToSettingScreen()
                      }) {
                          Icon(imageVector = Icons.Filled.Settings, contentDescription = "setting")

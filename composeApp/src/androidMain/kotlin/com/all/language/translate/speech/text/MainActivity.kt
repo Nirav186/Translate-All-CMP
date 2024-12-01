@@ -2,6 +2,7 @@ package com.all.language.translate.speech.text
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,6 +18,7 @@ import com.all.language.translate.speech.text.tts.TextToSpeechService
 import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.Dispatchers
 
+
 class MainActivity : ComponentActivity() {
 
     @SuppressLint("StaticFieldLeak")
@@ -28,12 +30,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this
+
         MobileAds.initialize(this)
         val dao = getTranslateDatabase(applicationContext)
             .builder()
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
             .getHistoryDao()
+
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT, Color.TRANSPARENT
@@ -51,5 +55,10 @@ class MainActivity : ComponentActivity() {
                 speechToTextService = SpeechToTextService(this)
             )
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        speechToTextService.handleActivityResult(requestCode, resultCode, data)
     }
 }
