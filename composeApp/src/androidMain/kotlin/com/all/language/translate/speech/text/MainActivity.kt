@@ -9,13 +9,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.all.language.translate.speech.text.data.local.getTranslateDatabase
+import com.all.language.translate.speech.text.data.local.GetDatabaseBuilder
 import com.all.language.translate.speech.text.data.networking.DictionaryClient
 import com.all.language.translate.speech.text.data.networking.TranslationClient
 import com.all.language.translate.speech.text.data.networking.createHttpClient
 import com.all.language.translate.speech.text.tts.SpeechToTextService
 import com.all.language.translate.speech.text.tts.TextToSpeechService
-import com.google.android.gms.ads.MobileAds
+import com.all.language.translate.speech.text.utils.Constant.speechToTextService
 import kotlinx.coroutines.Dispatchers
 
 
@@ -31,12 +31,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         context = this
 
-        MobileAds.initialize(this)
-        val dao = getTranslateDatabase(applicationContext)
+       /* MobileAds.initialize(this)*/
+        val db = GetDatabaseBuilder(applicationContext)
             .builder()
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
-            .getHistoryDao()
 
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
@@ -48,7 +47,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             App(
-                historyDao = dao,
+                database = db,
                 translationClient = TranslationClient(httpClient),
                 dictionaryClient = DictionaryClient(httpClient),
                 textToSpeechService = TextToSpeechService(this),

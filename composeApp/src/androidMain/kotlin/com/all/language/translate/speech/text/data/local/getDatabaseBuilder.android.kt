@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 
-actual class getTranslateDatabase(
+actual class GetDatabaseBuilder(
     private val appContext: Context
 ) {
     actual fun builder(): RoomDatabase.Builder<TranslateDb> {

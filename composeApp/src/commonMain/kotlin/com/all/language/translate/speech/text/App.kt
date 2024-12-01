@@ -2,7 +2,7 @@ package com.all.language.translate.speech.text
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
-import com.all.language.translate.speech.text.data.local.HistoryDao
+import com.all.language.translate.speech.text.data.local.TranslateDb
 import com.all.language.translate.speech.text.data.networking.DictionaryClient
 import com.all.language.translate.speech.text.data.networking.TranslationClient
 import com.all.language.translate.speech.text.theme.TranslateAllLanguageTheme
@@ -15,13 +15,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App(
-    historyDao: HistoryDao,
+    database : TranslateDb,
     translationClient: TranslationClient,
     textToSpeechService: TextToSpeechService,
     speechToTextService: SpeechToTextService,
     dictionaryClient: DictionaryClient,
 ) {
-    Constant.historyDao = historyDao
+    Constant.historyDao = database.getHistoryDao()
     Constant.dictionaryClient = dictionaryClient
     Constant.translationClient = translationClient
     Constant.textToSpeechService = textToSpeechService
