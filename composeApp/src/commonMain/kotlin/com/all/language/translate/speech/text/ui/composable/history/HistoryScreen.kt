@@ -51,6 +51,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.all.language.translate.speech.text.data.model.History
 import com.all.language.translate.speech.text.ui.composable.components.EmptyScreen
 import com.all.language.translate.speech.text.ui.composable.translate.TranslateScreen
+import com.all.language.translate.speech.text.utils.getLanguageName
 import compose.icons.FontAwesomeIcons
 import compose.icons.fontawesomeicons.Regular
 import compose.icons.fontawesomeicons.Solid
@@ -176,6 +177,9 @@ fun HistoryItem(
     onDeleteClick: () -> Unit,
     onUpdateClick: (History) -> Unit
 ) {
+
+    val from by remember{ mutableStateOf(getLanguageName(history.fromLang)) }
+    val to by remember{ mutableStateOf(getLanguageName(history.toLang)) }
     Surface(
         color = Color(0xFFF2FAFF),
         modifier = modifier.fillMaxWidth(),
@@ -196,7 +200,7 @@ fun HistoryItem(
                                 color = MaterialTheme.colorScheme.primary, fontSize = 14.ssp
                             )
                         ) {
-                            append(history.fromLang)
+                            append(from)
                         }
                         withStyle(
                             style = SpanStyle(
@@ -210,7 +214,7 @@ fun HistoryItem(
                                 color = MaterialTheme.colorScheme.primary, fontSize = 14.ssp
                             )
                         ) {
-                            append(history.toLang)
+                            append(to)
                         }
                     }, fontWeight = W400)
                 }

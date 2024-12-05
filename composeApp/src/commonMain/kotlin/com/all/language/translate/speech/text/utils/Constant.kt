@@ -5310,3 +5310,6 @@ fun getQuoteIcon(key: String): DrawableResource? {
     )
     return map[key]
 }
+
+fun getLanguageName(code: String): String =
+    Constant.languageList.first { it.code == code.ifEmpty { "detect" } }.name

@@ -36,15 +36,15 @@ class LanguageSelectionViewModel : ScreenModel {
         if (isFrom) {
             keyValueStorage.fromLanguageCode = (selectedLanguage ?: _languageList.value[0]).code
         } else {
-            keyValueStorage.toLanguageCode = (selectedLanguage ?: _languageList.value[0]).code
+             keyValueStorage.toLanguageCode = (selectedLanguage ?: _languageList.value[29]).code
         }
     }
 
-    fun getSelectedLanguage(isFrom: Boolean): Language? {
+    fun getSelectedLanguage(isFrom: Boolean): Language {
         return if (isFrom) {
-            Constant.languageList.find { it.code == keyValueStorage.fromLanguageCode }
+            Constant.languageList.first { it.code == keyValueStorage.fromLanguageCode }
         } else {
-            Constant.languageList.find { it.code == keyValueStorage.toLanguageCode }
+            Constant.languageList.first { it.code == keyValueStorage.toLanguageCode }
         }
     }
 

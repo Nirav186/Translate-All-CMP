@@ -52,6 +52,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.all.language.translate.speech.text.data.model.History
 import com.all.language.translate.speech.text.data.model.Quote
+import com.all.language.translate.speech.text.data.storage.KeyValueStorage
+import com.all.language.translate.speech.text.data.storage.KeyValueStorageImpl
 import com.all.language.translate.speech.text.shareText
 import com.all.language.translate.speech.text.theme.getMontBFont
 import com.all.language.translate.speech.text.ui.composable.components.EmptyScreen
@@ -70,14 +72,24 @@ class QuotesListScreen(val quote: Quote) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
         QuotesListScreenContent(
             quote = quote,
             onBackPress = {
                 navigator.pop()
             },
             navigateToTranslate = {
-                navigator.push(TranslateScreen(History.empty().copy(originalText = it)))
-            })
+                navigator.push(
+                    TranslateScreen(
+                        History.empty().copy(
+                            originalText = it,
+                            toLang = keyValueStorage.toLanguageCode,
+                            fromLang = keyValueStorage.fromLanguageCode
+                        )
+                    )
+                )
+            }
+        )
     }
 }
 

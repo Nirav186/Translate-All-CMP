@@ -39,16 +39,14 @@ class TranslateViewModel : ScreenModel {
     fun init(history: History?, fromLang: Language, toLang: Language) {
         history?.let { his ->
             _history.update { his }
-            keyValueStorage.toLanguageCode =
-                Constant.languageList.firstOrNull { it.name == his.toLang }?.code ?: toLang.code
-            keyValueStorage.fromLanguageCode =
-                Constant.languageList.firstOrNull { it.name == his.fromLang }?.code ?: fromLang.code
+            keyValueStorage.toLanguageCode = his.toLang.ifEmpty { toLang.code }
+            keyValueStorage.fromLanguageCode = fromLang.code.ifEmpty { fromLang.code }
         } ?: run {
             _history.update {
                 History(
                     id = 0,
-                    fromLang = fromLang.name,
-                    toLang = toLang.name,
+                    fromLang = fromLang.code,
+                    toLang = toLang.code,
                     originalText = "",
                     translateText = ""
                 )

@@ -9,6 +9,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.all.language.translate.speech.text.data.model.Language
 import com.all.language.translate.speech.text.data.storage.KeyValueStorage
 import com.all.language.translate.speech.text.data.storage.KeyValueStorageImpl
+import com.all.language.translate.speech.text.utils.Constant
 import dev.icerock.moko.permissions.DeniedAlwaysException
 import dev.icerock.moko.permissions.DeniedException
 import dev.icerock.moko.permissions.Permission
@@ -34,10 +35,19 @@ class DashBoardViewModel(private val controller: PermissionsController) : Screen
         }
     }
 
-    fun swapSelectedLanguage(selectedFromLang: Language, selectedToLang: Language) {
-        val (fromLang, toLang) = Pair(selectedFromLang, selectedToLang)
-        keyValueStorage.fromLanguageCode = toLang.code
-        keyValueStorage.toLanguageCode = fromLang.code
+    fun swapSelectedLanguage(
+        selectedFromLang: Language,
+        selectedToLang: Language,
+        callBack: (Boolean) -> Unit
+    ) {
+        if ((selectedFromLang.code != selectedToLang.code) and (selectedFromLang.code != Constant.languageList.first().code)) {
+            val (fromLang, toLang) = Pair(selectedFromLang, selectedToLang)
+            keyValueStorage.fromLanguageCode = toLang.code
+            keyValueStorage.toLanguageCode = fromLang.code
+            callBack(true)
+        } else {
+            callBack(false)
+        }
     }
 
     fun provideOrRequestRecordAudioPermission() {

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import com.all.language.translate.speech.text.data.model.Language
 import com.all.language.translate.speech.text.ui.composable.dashboardOne.DashBoardViewModel
+import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import org.jetbrains.compose.resources.painterResource
 import translate.composeapp.generated.resources.Res
@@ -28,7 +29,7 @@ fun RotatingSwapIcon(
     var isRotated by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
         targetValue = if (isRotated) 180f else 0f,
-        animationSpec = tween(durationMillis = 200)
+        animationSpec = tween(durationMillis = 300)
     )
 
     Icon(
@@ -36,8 +37,16 @@ fun RotatingSwapIcon(
             .padding(horizontal = 8.sdp)
             .clickable(
                 onClick = {
-                    isRotated = !isRotated
-                    dashBoardViewModel.swapSelectedLanguage(selectedFromLang, selectedToLang)
+                    dashBoardViewModel.swapSelectedLanguage(
+                        selectedFromLang,
+                        selectedToLang
+                    ) { success ->
+                        if (!success) {
+                            showToast("Can not swap these languages try another language")
+                        } else {
+                            isRotated = !isRotated
+                        }
+                    }
                 }
             )
             .rotate(rotation),

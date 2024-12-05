@@ -63,7 +63,7 @@ fun LanguageSelection(
     var selectedLanguage by remember { mutableStateOf<Language?>(null) }
 
     LaunchedEffect(Unit) {
-        languageSelectionViewModel.getSelectedLanguage(isFrom)?.let {
+        languageSelectionViewModel.getSelectedLanguage(isFrom).let {
             selectedLanguage = it
         }
     }
@@ -140,10 +140,7 @@ fun LanguageSelection(
                     isSelected = selectedLanguage == lang,
                     onClick = {
                         selectedLanguage = lang
-                        languageSelectionViewModel.saveLanguageIndex(
-                            selectedLanguage,
-                            isFrom
-                        )
+                        languageSelectionViewModel.saveLanguageIndex(selectedLanguage, isFrom)
                         onSaveClick()
                     }
                 )

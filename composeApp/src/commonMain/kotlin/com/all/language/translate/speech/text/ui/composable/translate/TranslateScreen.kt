@@ -70,6 +70,11 @@ import com.all.language.translate.speech.text.ui.composable.components.TextArea
 import com.all.language.translate.speech.text.ui.composable.dashboardOne.DashBoardViewModel
 import com.all.language.translate.speech.text.ui.composable.selection.LanguageSelectionScreen
 import com.all.language.translate.speech.text.utils.Constant
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Regular
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.regular.Heart
+import compose.icons.fontawesomeicons.solid.Heart
 import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
@@ -215,7 +220,7 @@ fun TranslateScreenContent(
                         TextArea(
                             modifier = Modifier
                                 .padding(8.sdp)
-                                .padding(top = 20.sdp)
+                                .padding(top = 24.sdp)
                                 .fillMaxWidth()
                                 .heightIn(min = 130.sdp, max = 150.sdp),
                             colors = OutlinedTextFieldDefaults.colors(
@@ -373,7 +378,7 @@ fun TranslateScreenContent(
                             Text(
                                 modifier = Modifier
                                     .padding(8.sdp)
-                                    .padding(top = 18.sdp)
+                                    .padding(top = 22.sdp)
                                     .fillMaxWidth(),
                                 text = historyLocal.translateText,
                                 maxLines = 8
@@ -381,13 +386,12 @@ fun TranslateScreenContent(
 
                             IconButton(
                                 modifier = Modifier.align(Alignment.TopEnd),
-                                onClick = {
-                                    translateViewModel.toggleFavorite()
-                                }) {
+                                onClick = { translateViewModel.toggleFavorite() }) {
                                 Icon(
-                                    imageVector = if (historyLocal.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
+                                    imageVector = if (historyLocal.isFavorite) FontAwesomeIcons.Solid.Heart else FontAwesomeIcons.Regular.Heart,
                                     contentDescription = "star",
-                                    tint = if (historyLocal.isFavorite) Color.Yellow else Color.Unspecified
+                                    modifier = Modifier.size(14.sdp),
+                                    tint = Color(0xFF355481)
                                 )
                             }
 
