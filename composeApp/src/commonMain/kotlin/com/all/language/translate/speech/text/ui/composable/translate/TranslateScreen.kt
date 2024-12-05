@@ -98,7 +98,7 @@ class TranslateScreen(private val history: History? = null) : Screen {
 
         val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
         val selectedFromLang by keyValueStorage.observableFromLanguage.collectAsState(initial = Constant.languageList.first())
-        val selectedToLang by keyValueStorage.observableToLanguage.collectAsState(initial = Constant.languageList.first())
+        val selectedToLang by keyValueStorage.observableToLanguage.collectAsState(initial = Constant.languageList.first { it.code == "en" })
 
         LaunchedEffect(true) {
             translateViewModel.init(history, selectedFromLang, selectedToLang)

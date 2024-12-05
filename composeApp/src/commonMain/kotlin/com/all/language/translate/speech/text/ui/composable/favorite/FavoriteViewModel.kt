@@ -25,7 +25,8 @@ class FavoriteViewModel : ScreenModel {
         }
     }
 
-    fun removeFavorite(history: History) = screenModelScope.launch { historyRepoImpl.removeFavorite(history) }
+    fun removeFavorite(history: History) =
+        screenModelScope.launch { historyRepoImpl.removeFavorite(history) }
 
     fun removeAllFavorites() = screenModelScope.launch { historyRepoImpl.removeAllFavorites() }
 }

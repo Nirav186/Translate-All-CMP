@@ -24,7 +24,7 @@ class KeyValueStorageImpl : KeyValueStorage {
         }
 
     override var toLanguageCode: String
-        get() = settings[StorageKeys.TO_LANGUAGE.key] ?: ""
+        get() = settings[StorageKeys.TO_LANGUAGE.key] ?: "en"
         set(value) {
             settings[StorageKeys.TO_LANGUAGE.key] = value
         }
@@ -39,7 +39,7 @@ class KeyValueStorageImpl : KeyValueStorage {
 
     @OptIn(ExperimentalSettingsApi::class, ExperimentalCoroutinesApi::class)
     override val observableToLanguage: Flow<Language>
-        get() = observableSettings.getStringFlow(StorageKeys.TO_LANGUAGE.key, "")
+        get() = observableSettings.getStringFlow(StorageKeys.TO_LANGUAGE.key, "en")
             .mapLatest { languageCode ->
                 Constant.languageList.find { it.code == languageCode }
             }

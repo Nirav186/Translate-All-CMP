@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -75,15 +74,11 @@ class HistoryScreen : Screen {
         LaunchedEffect(true) {
             historyViewModel.getAllHistory()
         }
-        HistoryScreenContent(
-            historyViewModel = historyViewModel,
-            goBack = {
-                navigator.pop()
-            },
-            navigateTranslateScreen = {
-                navigator.push(TranslateScreen(it))
-            }
-        )
+        HistoryScreenContent(historyViewModel = historyViewModel, goBack = {
+            navigator.pop()
+        }, navigateTranslateScreen = {
+            navigator.push(TranslateScreen(it))
+        })
     }
 }
 
@@ -99,79 +94,66 @@ fun HistoryScreenContent(
     val historyList by historyViewModel.historyList.collectAsState()
 
     if (showDialog) {
-        AlertDialog(
-            properties = DialogProperties(),
-            title = {
-                Text(text = "Clear history")
-            },
-            text = {
-                Text(
-                    text = "Are you sure want to clear history?",
-                    modifier = Modifier.fillMaxWidth()
-                )
-            },
-            onDismissRequest = { showDialog = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    historyViewModel.deleteAllHistory()
-                }) {
-                    Text(text = "Delete", color = Color.Red)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    showDialog = false
-                }) {
-                    Text(text = "Cancel", color = MaterialTheme.colorScheme.primary)
-                }
+        AlertDialog(properties = DialogProperties(), title = {
+            Text(text = "Clear history")
+        }, text = {
+            Text(
+                text = "Are you sure want to clear history?", modifier = Modifier.fillMaxWidth()
+            )
+        }, onDismissRequest = { showDialog = false }, confirmButton = {
+            TextButton(onClick = {
+                historyViewModel.deleteAllHistory()
+            }) {
+                Text(text = "Delete", color = Color.Red)
             }
-        )
+        }, dismissButton = {
+            TextButton(onClick = {
+                showDialog = false
+            }) {
+                Text(text = "Cancel", color = MaterialTheme.colorScheme.primary)
+            }
+        })
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.surface,
-                    actionIconContentColor = MaterialTheme.colorScheme.surface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.surface
-                ),
-                navigationIcon = {
+    Scaffold(topBar = {
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.surface,
+                actionIconContentColor = MaterialTheme.colorScheme.surface,
+                navigationIconContentColor = MaterialTheme.colorScheme.surface
+            ),
+            navigationIcon = {
+                IconButton(onClick = {
+                    goBack()
+                }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "setting"
+                    )
+                }
+            },
+            actions = {
+                if (historyList.isNotEmpty()) {
                     IconButton(onClick = {
-                        goBack()
+                        showDialog = true
                     }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "setting"
+                            painter = painterResource(Res.drawable.emptyList),
+                            contentDescription = "empty list"
                         )
                     }
-                },
-                actions = {
-                    if (historyList.isNotEmpty()) {
-                        IconButton(onClick = {
-                            showDialog = true
-                        }) {
-                            Icon(
-                                painter = painterResource(Res.drawable.emptyList),
-                                contentDescription = "empty list"
-                            )
-                        }
-                    }
-                },
-                title = { Text(text = "History", fontWeight = FontWeight.Medium) },
-            )
-        }
-    ) {
+                }
+            },
+            title = { Text(text = "History", fontWeight = FontWeight.Medium) },
+        )
+    }) {
         if (historyList.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize(),
+                modifier = Modifier.padding(it).fillMaxSize(),
             ) {
                 items(historyList) { history ->
-                    HistoryItem(
-                        modifier = Modifier.padding(4.sdp),
+                    HistoryItem(modifier = Modifier.padding(4.sdp),
                         history = history,
                         isFavoriteScreen = false,
                         onItemClick = { navigateTranslateScreen(history) },
@@ -204,32 +186,28 @@ fun HistoryItem(
         shape = RoundedCornerShape(12.sdp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.padding(start = 8.sdp).weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(text = buildAnnotatedString {
                         withStyle(
                             style = SpanStyle(
-                                color = MaterialTheme.colorScheme.primary,
-                                fontSize = 14.ssp
+                                color = MaterialTheme.colorScheme.primary, fontSize = 14.ssp
                             )
                         ) {
                             append(history.fromLang)
                         }
                         withStyle(
                             style = SpanStyle(
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 18.ssp
+                                color = MaterialTheme.colorScheme.onSurface, fontSize = 18.ssp
                             )
                         ) {
                             append(" \u2192 ")
                         }
                         withStyle(
                             style = SpanStyle(
-                                color = MaterialTheme.colorScheme.primary,
-                                fontSize = 14.ssp
+                                color = MaterialTheme.colorScheme.primary, fontSize = 14.ssp
                             )
                         ) {
                             append(history.toLang)

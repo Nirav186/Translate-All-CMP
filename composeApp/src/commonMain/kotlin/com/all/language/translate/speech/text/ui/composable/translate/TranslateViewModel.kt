@@ -7,6 +7,7 @@ import com.all.language.translate.speech.text.data.model.Language
 import com.all.language.translate.speech.text.data.repo.HistoryRepoImpl
 import com.all.language.translate.speech.text.data.storage.KeyValueStorage
 import com.all.language.translate.speech.text.data.storage.KeyValueStorageImpl
+import com.all.language.translate.speech.text.shareText
 import com.all.language.translate.speech.text.utils.Constant
 import com.all.language.translate.speech.text.utils.onSuccess
 import kotlinx.coroutines.CoroutineScope
@@ -36,8 +37,12 @@ class TranslateViewModel : ScreenModel {
     private val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
 
     fun init(history: History?, fromLang: Language, toLang: Language) {
-        history?.let {
-            _history.update { history }
+        history?.let { his ->
+            _history.update { his }
+            keyValueStorage.toLanguageCode =
+                Constant.languageList.firstOrNull { it.name == his.toLang }?.code ?: toLang.code
+            keyValueStorage.fromLanguageCode =
+                Constant.languageList.firstOrNull { it.name == his.fromLang }?.code ?: fromLang.code
         } ?: run {
             _history.update {
                 History(
@@ -68,7 +73,7 @@ class TranslateViewModel : ScreenModel {
             val translateWords = Constant.translationClient.translateWords(
                 originalText = _history.value.originalText,
                 srcLanguage = keyValueStorage.fromLanguageCode.ifEmpty { Constant.languageList.first().code },
-                targetLanguage = keyValueStorage.toLanguageCode.ifEmpty { Constant.languageList.first().code }
+                targetLanguage = keyValueStorage.toLanguageCode.ifEmpty { Constant.languageList.first { it.code == "en" }.code }
             )
             translateWords.onSuccess { translation ->
                 _history.update {
@@ -111,7 +116,6 @@ class TranslateViewModel : ScreenModel {
     }
 
     fun shareText() {
-        com.all.language.translate.speech.text.shareText(_history.value.translateText)
+        shareText(_history.value.translateText)
     }
-
 }
