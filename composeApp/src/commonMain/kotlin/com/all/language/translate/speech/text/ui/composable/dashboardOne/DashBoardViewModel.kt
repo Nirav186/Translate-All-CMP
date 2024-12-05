@@ -22,14 +22,19 @@ class DashBoardViewModel(private val controller: PermissionsController) : Screen
     var permissionState by mutableStateOf(PermissionState.NotDetermined)
         private set
 
+    var permissionReqCount by mutableStateOf(0)
+        private set
+
+    private val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
+
     init {
         screenModelScope.launch {
             permissionState = controller.getPermissionState(Permission.RECORD_AUDIO)
+            permissionReqCount = keyValueStorage.isPermissionRequested
         }
     }
 
     fun swapSelectedLanguage(selectedFromLang: Language, selectedToLang: Language) {
-        val keyValueStorage: KeyValueStorage = KeyValueStorageImpl()
         val (fromLang, toLang) = Pair(selectedFromLang, selectedToLang)
         keyValueStorage.fromLanguageCode = toLang.code
         keyValueStorage.toLanguageCode = fromLang.code
@@ -37,15 +42,21 @@ class DashBoardViewModel(private val controller: PermissionsController) : Screen
 
     fun provideOrRequestRecordAudioPermission() {
         screenModelScope.launch {
-            try {
-                controller.providePermission(Permission.RECORD_AUDIO)
+            if (!controller.isPermissionGranted(Permission.RECORD_AUDIO)) {
+                try {
+                    controller.providePermission(Permission.RECORD_AUDIO)
+                    permissionState = PermissionState.Granted
+                } catch (e: DeniedAlwaysException) {
+                    permissionState = PermissionState.DeniedAlways
+                } catch (e: DeniedException) {
+                    permissionState = PermissionState.Denied
+                } catch (e: RequestCanceledException) {
+                    e.printStackTrace()
+                }
+                keyValueStorage.isPermissionRequested += 1
+                permissionReqCount = keyValueStorage.isPermissionRequested
+            } else {
                 permissionState = PermissionState.Granted
-            } catch(e: DeniedAlwaysException) {
-                permissionState = PermissionState.DeniedAlways
-            } catch(e: DeniedException) {
-                permissionState = PermissionState.Denied
-            } catch(e: RequestCanceledException) {
-                e.printStackTrace()
             }
         }
     }

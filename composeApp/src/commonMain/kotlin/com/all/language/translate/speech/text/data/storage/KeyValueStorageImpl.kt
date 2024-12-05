@@ -1,13 +1,13 @@
 package com.all.language.translate.speech.text.data.storage
 
+import com.all.language.translate.speech.text.data.model.Language
+import com.all.language.translate.speech.text.utils.Constant
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.getStringFlow
 import com.russhwolf.settings.get
 import com.russhwolf.settings.set
-import com.all.language.translate.speech.text.data.model.Language
-import com.all.language.translate.speech.text.utils.Constant
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
@@ -44,6 +44,12 @@ class KeyValueStorageImpl : KeyValueStorage {
                 Constant.languageList.find { it.code == languageCode }
             }
             .filterNotNull()
+
+    override var isPermissionRequested: Int
+        get() = settings[StorageKeys.PERMISSION_REQUEST_COUNT.key] ?: 0
+        set(value) {
+            settings[StorageKeys.PERMISSION_REQUEST_COUNT.key] = value
+        }
 
     // clean all the stored values
     override fun cleanStorage() {

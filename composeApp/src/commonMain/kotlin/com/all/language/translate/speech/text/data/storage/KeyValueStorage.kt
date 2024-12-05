@@ -13,5 +13,7 @@ interface KeyValueStorage {
 
     val observableToLanguage: Flow<Language>
 
+    var isPermissionRequested: Int
+
     fun cleanStorage()
 }

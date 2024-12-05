@@ -15,7 +15,8 @@ import com.all.language.translate.speech.text.data.networking.TranslationClient
 import com.all.language.translate.speech.text.data.networking.createHttpClient
 import com.all.language.translate.speech.text.tts.SpeechToTextService
 import com.all.language.translate.speech.text.tts.TextToSpeechService
-import com.google.android.gms.ads.MobileAds
+import com.all.language.translate.speech.text.utils.Constant.speechToTextService
+//import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.Dispatchers
 
 
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         context = this
 
-        MobileAds.initialize(this)
+//        MobileAds.initialize(this)
         val dao = getTranslateDatabase(applicationContext)
             .builder()
             .setQueryCoroutineContext(Dispatchers.IO)

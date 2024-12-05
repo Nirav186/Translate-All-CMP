@@ -46,7 +46,7 @@ actual class SpeechToTextService(private val context: Context) : RecognitionList
             val recognizedText = results?.firstOrNull() ?: ""
             onResultCallback?.invoke(recognizedText)
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            onErrorCallback?.invoke("User canceled the speech input")
+            onErrorCallback?.invoke("the speech input service canceled")
         } else {
             onErrorCallback?.invoke("Failed to recognize speech")
         }
