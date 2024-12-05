@@ -6,6 +6,7 @@ import com.all.language.translate.speech.text.data.storage.KeyValueStorage
 import com.all.language.translate.speech.text.data.storage.KeyValueStorageImpl
 import com.all.language.translate.speech.text.utils.Constant
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 
@@ -36,6 +37,14 @@ class LanguageSelectionViewModel : ScreenModel {
             keyValueStorage.fromLanguageCode = (selectedLanguage ?: _languageList.value[0]).code
         } else {
             keyValueStorage.toLanguageCode = (selectedLanguage ?: _languageList.value[0]).code
+        }
+    }
+
+    fun getSelectedLanguage(isFrom: Boolean): Language? {
+        return if (isFrom) {
+            Constant.languageList.find { it.code == keyValueStorage.fromLanguageCode }
+        } else {
+            Constant.languageList.find { it.code == keyValueStorage.toLanguageCode }
         }
     }
 

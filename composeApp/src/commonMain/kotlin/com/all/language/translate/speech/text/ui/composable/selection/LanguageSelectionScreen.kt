@@ -12,7 +12,9 @@ class LanguageSelectionScreen(private val isFrom: Boolean) : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val languageSelectionViewModel = rememberScreenModel { LanguageSelectionViewModel() }
-        LanguageSelection(languageSelectionViewModel, isFrom) {
+        LanguageSelection(
+            languageSelectionViewModel, isFrom
+        ) {
             navigator.pop()
         }
     }

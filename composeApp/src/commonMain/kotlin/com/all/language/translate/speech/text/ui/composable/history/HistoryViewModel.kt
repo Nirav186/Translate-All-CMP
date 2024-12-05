@@ -18,18 +18,13 @@ class HistoryViewModel : ScreenModel {
 
     private val historyRepoImpl = HistoryRepoImpl()
 
-    suspend fun getAllHistory() {
+    fun getAllHistory() {
         screenModelScope.launch {
             historyRepoImpl.getAllHistory().collectLatest { list ->
-                _historyList.update {
-                    list
-                }
+                _historyList.update { list }
             }
         }
     }
-
-    suspend fun addHistory(history: History) =
-        withContext(screenModelScope.coroutineContext) { historyRepoImpl.addHistory(history) }
 
     fun deleteHistory(history: History) =
         screenModelScope.launch { historyRepoImpl.deleteHistory(history) }

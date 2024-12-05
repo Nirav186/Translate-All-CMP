@@ -4,12 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,8 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +28,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +36,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -60,17 +56,17 @@ fun LanguageSelection(
     isFrom: Boolean,
     onSaveClick: () -> Unit,
 ) {
-    val titleText by remember {
-        mutableStateOf(
-            "Translate ${
-                if (isFrom) "From" else "To"
-            }"
-        )
-    }
+    val titleText by remember { mutableStateOf("Translate ${if (isFrom) "From" else "To"}") }
     val languages by languageSelectionViewModel.languageList.collectAsState(initial = emptyList())
     val searchQuery by languageSelectionViewModel.searchText.collectAsState()
     var expanded by remember { mutableStateOf(false) }
     var selectedLanguage by remember { mutableStateOf<Language?>(null) }
+
+    LaunchedEffect(Unit) {
+        languageSelectionViewModel.getSelectedLanguage(isFrom)?.let {
+            selectedLanguage = it
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -81,7 +77,7 @@ fun LanguageSelection(
                     actionIconContentColor = MaterialTheme.colorScheme.surface,
                     navigationIconContentColor = MaterialTheme.colorScheme.surface
                 ),
-                actions = {
+                /*actions = {
                     if (!expanded && selectedLanguage != null) {
                         Button(
                             modifier = Modifier
@@ -97,10 +93,8 @@ fun LanguageSelection(
                             ),
                             contentPadding = PaddingValues(0.dp),
                             onClick = {
-                                languageSelectionViewModel.saveLanguageIndex(
-                                    selectedLanguage,
-                                    isFrom
-                                )
+                                languageSelectionViewModel
+                                    .saveLanguageIndex(selectedLanguage, isFrom)
                                 onSaveClick()
                             },
                             enabled = selectedLanguage != null
@@ -108,12 +102,10 @@ fun LanguageSelection(
                             Text(text = "Save", fontSize = 12.ssp)
                         }
                     }
-                },
+                },*/
                 navigationIcon = {
                     if (!expanded) {
-                        BackButton {
-                            onSaveClick()
-                        }
+                        BackButton { onSaveClick() }
                     }
                 },
                 title = {

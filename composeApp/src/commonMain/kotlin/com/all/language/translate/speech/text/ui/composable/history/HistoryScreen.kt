@@ -1,5 +1,7 @@
 package com.all.language.translate.speech.text.ui.composable.history
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,16 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DeleteSweep
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -28,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -53,8 +52,18 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.all.language.translate.speech.text.data.model.History
 import com.all.language.translate.speech.text.ui.composable.components.EmptyScreen
 import com.all.language.translate.speech.text.ui.composable.translate.TranslateScreen
+import compose.icons.FontAwesomeIcons
+import compose.icons.fontawesomeicons.Regular
+import compose.icons.fontawesomeicons.Solid
+import compose.icons.fontawesomeicons.regular.Heart
+import compose.icons.fontawesomeicons.regular.TrashAlt
+import compose.icons.fontawesomeicons.solid.Heart
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
+import org.jetbrains.compose.resources.painterResource
+import translate.composeapp.generated.resources.Res
+import translate.composeapp.generated.resources.emptyList
+import translate.composeapp.generated.resources.unfavorite
 
 class HistoryScreen : Screen {
 
@@ -144,8 +153,8 @@ fun HistoryScreenContent(
                             showDialog = true
                         }) {
                             Icon(
-                                imageVector = Icons.Filled.DeleteSweep,
-                                contentDescription = "setting"
+                                painter = painterResource(Res.drawable.emptyList),
+                                contentDescription = "empty list"
                             )
                         }
                     }
@@ -164,6 +173,7 @@ fun HistoryScreenContent(
                     HistoryItem(
                         modifier = Modifier.padding(4.sdp),
                         history = history,
+                        isFavoriteScreen = false,
                         onItemClick = { navigateTranslateScreen(history) },
                         onDeleteClick = { historyViewModel.deleteHistory(history) },
                         onUpdateClick = { newH -> historyViewModel.updateHistory(newH) })
@@ -179,105 +189,109 @@ fun HistoryScreenContent(
 fun HistoryItem(
     modifier: Modifier = Modifier,
     history: History,
-    showAction: Boolean = true,
+    isFavoriteScreen: Boolean = true,
     onItemClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onUpdateClick: (History) -> Unit
 ) {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+        color = Color(0xFFF2FAFF),
         modifier = modifier.fillMaxWidth(),
         onClick = onItemClick,
         tonalElevation = 8.sdp,
         shadowElevation = 0.dp,
-        shape = RoundedCornerShape(8.sdp)
+        border = BorderStroke(width = 1.sdp, color = Color(0xFF98C4EC)),
+        shape = RoundedCornerShape(12.sdp)
     ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.sdp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 15.ssp
-                        )
-                    ) {
-                        append(history.fromLang)
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontSize = 18.ssp
-                        )
-                    ) {
-                        append(" \u2192 ")
-                    }
-                    withStyle(
-                        style = SpanStyle(
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 15.ssp
-                        )
-                    ) {
-                        append(history.toLang)
-                    }
-                })
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.sdp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = history.originalText,
-                    maxLines = 1,
-                    fontSize = 14.ssp,
-                    overflow = TextOverflow.Ellipsis
-                )
-                if (showAction) {
-                    Spacer(modifier = Modifier.width(20.sdp))
-                    IconButton(onClick = {
-                        onUpdateClick(
-                            history.copy(
-                                isFavorite = history.isFavorite.not()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.padding(start = 8.sdp).weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = MaterialTheme.colorScheme.primary,
+                                fontSize = 14.ssp
                             )
-                        )
-                    }) {
+                        ) {
+                            append(history.fromLang)
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontSize = 18.ssp
+                            )
+                        ) {
+                            append(" \u2192 ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = MaterialTheme.colorScheme.primary,
+                                fontSize = 14.ssp
+                            )
+                        ) {
+                            append(history.toLang)
+                        }
+                    }, fontWeight = W400)
+                }
+                Spacer(modifier = Modifier.height(10.sdp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = history.originalText,
+                        maxLines = 1,
+                        color = Color.Black,
+                        fontWeight = W400,
+                        fontSize = 14.ssp,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = history.translateText,
+                        maxLines = 1,
+                        fontSize = 14.ssp,
+                        color = Color.Gray,
+                        fontWeight = W400,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.sdp))
+            }
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                if (!isFavoriteScreen) {
+                    IconButton(onClick = { onDeleteClick() }) {
                         Icon(
-                            imageVector = if (history.isFavorite) Icons.Filled.Star else Icons.Outlined.StarOutline,
-                            contentDescription = "star",
-                            tint = if (history.isFavorite) Color.Yellow else Color.Unspecified
+                            imageVector = FontAwesomeIcons.Regular.TrashAlt,
+                            contentDescription = "delete",
+                            modifier = Modifier.size(14.sdp),
+                            tint = Color(0xFF355481)
                         )
                     }
-
-                    IconButton(onClick = {
-                        onDeleteClick()
-                    }) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "delete")
+                    IconButton(onClick = { onUpdateClick(history.copy(isFavorite = history.isFavorite.not())) }) {
+                        Icon(
+                            imageVector = if (history.isFavorite) FontAwesomeIcons.Solid.Heart else FontAwesomeIcons.Regular.Heart,
+                            contentDescription = "star",
+                            modifier = Modifier.size(14.sdp),
+                            tint = Color(0xFF355481)
+                        )
+                    }
+                } else {
+                    IconButton(onClick = { onDeleteClick() }) {
+                        Icon(
+                            painter = painterResource(Res.drawable.unfavorite),
+                            contentDescription = "delete",
+                            modifier = Modifier.size(18.sdp),
+                            tint = Color(0xFF355481)
+                        )
                     }
                 }
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.sdp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = history.translateText,
-                    maxLines = 1,
-                    fontSize = 14.ssp,
-                    color = Color.Gray,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Spacer(modifier = Modifier.height(10.sdp))
         }
     }
 }

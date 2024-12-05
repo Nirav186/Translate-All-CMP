@@ -36,21 +36,23 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.all.language.translate.speech.text.data.model.History
 import com.all.language.translate.speech.text.ui.composable.components.EmptyScreen
 import com.all.language.translate.speech.text.ui.composable.history.HistoryItem
-import com.all.language.translate.speech.text.ui.composable.history.HistoryViewModel
 import com.all.language.translate.speech.text.ui.composable.translate.TranslateScreen
 import network.chaintech.sdpcomposemultiplatform.sdp
+import org.jetbrains.compose.resources.painterResource
+import translate.composeapp.generated.resources.Res
+import translate.composeapp.generated.resources.emptyList
 
 class FavoriteScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
 
-        val historyViewModel = rememberScreenModel { HistoryViewModel() }
+        val favoriteViewModel = rememberScreenModel { FavoriteViewModel() }
         LaunchedEffect(true) {
-            historyViewModel.getAllHistory()
+            favoriteViewModel.getAllHistory()
         }
         FavoriteScreenContent(
-            historyViewModel = historyViewModel,
+            favoriteViewModel = favoriteViewModel,
             navigateTranslateScreen = { history -> navigator.push(TranslateScreen(history)) },
             goBack = { navigator.pop() },
         )
@@ -60,93 +62,78 @@ class FavoriteScreen : Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreenContent(
-    historyViewModel: HistoryViewModel,
+    favoriteViewModel: FavoriteViewModel,
     navigateTranslateScreen: (History) -> Unit,
     goBack: () -> Unit
 ) {
 
     var showDialog by remember { mutableStateOf(false) }
-    val historyList by historyViewModel.historyList.collectAsState()
+    val historyList by favoriteViewModel.favoriteList.collectAsState()
 
     if (showDialog) {
-        AlertDialog(
-            properties = DialogProperties(),
-            title = {
-                Text(text = "Clear history")
-            },
-            text = {
-                Text(
-                    text = "Are you sure want to clear history?",
-                    modifier = Modifier.fillMaxWidth()
-                )
-            },
-            onDismissRequest = { showDialog = false },
-            confirmButton = {
-                TextButton(onClick = {
-                    historyViewModel.deleteAllHistory()
-                }) {
-                    Text(text = "Delete", color = Color.Red)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    showDialog = false
-                }) {
-                    Text(text = "Cancel", color = MaterialTheme.colorScheme.primary)
-                }
+        AlertDialog(properties = DialogProperties(), title = {
+            Text(text = "Remove all Favorites")
+        }, text = {
+            Text(
+                text = "Are you sure want to Remove all Favorites ?",
+                modifier = Modifier.fillMaxWidth()
+            )
+        }, onDismissRequest = { showDialog = false }, confirmButton = {
+            TextButton(onClick = {
+                favoriteViewModel.removeAllFavorites()
+                showDialog = false
+            }) {
+                Text(text = "Remove", color = Color.Red)
             }
-        )
+        }, dismissButton = {
+            TextButton(onClick = {
+                showDialog = false
+            }) {
+                Text(text = "Cancel", color = Color.Gray)
+            }
+        })
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.surface,
-                    actionIconContentColor = MaterialTheme.colorScheme.surface,
-                    navigationIconContentColor = MaterialTheme.colorScheme.surface
-                ),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        goBack()
-                    }) {
+    Scaffold(topBar = {
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.surface,
+                actionIconContentColor = MaterialTheme.colorScheme.surface,
+                navigationIconContentColor = MaterialTheme.colorScheme.surface
+            ),
+            navigationIcon = {
+                IconButton(onClick = { goBack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "setting"
+                    )
+                }
+            },
+            actions = {
+                if (historyList.isNotEmpty()) {
+                    IconButton(onClick = { showDialog = true }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "setting"
+                            painter = painterResource(Res.drawable.emptyList),
+                            contentDescription = "empty list"
                         )
                     }
-                },
-                actions = {
-                    if (historyList.isNotEmpty()) {
-                        IconButton(onClick = {
-                            showDialog = true
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.DeleteSweep,
-                                contentDescription = "setting"
-                            )
-                        }
-                    }
-                },
-                title = { Text(text = "Favorite", fontWeight = FontWeight.Medium) },
-            )
-        }
-    ) {
+                }
+            },
+            title = { Text(text = "Favorite", fontWeight = FontWeight.Medium) },
+        )
+    }) {
         if (historyList.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize(),
+                modifier = Modifier.padding(it).fillMaxSize(),
             ) {
                 items(historyList.filter { itm -> itm.isFavorite }) { history ->
-                    HistoryItem(
-                        modifier = Modifier.padding(4.sdp),
+                    HistoryItem(modifier = Modifier.padding(4.sdp),
                         history = history,
-                        showAction = false,
+                        isFavoriteScreen = true,
                         onItemClick = { navigateTranslateScreen(history) },
-                        onDeleteClick = { historyViewModel.deleteHistory(history) },
-                        onUpdateClick = { newH -> historyViewModel.updateHistory(newH) })
+                        onDeleteClick = { favoriteViewModel.removeFavorite(history) },
+                        onUpdateClick = { newH -> })
                 }
             }
         } else {

@@ -92,6 +92,9 @@ kotlin {
 
             api(libs.moko.permissions)
             api(libs.moko.permissions.compose)
+
+            implementation(libs.composeIcons.tablerIcons)
+            implementation(libs.composeIcons.fontAwesome)
         }
     }
 }

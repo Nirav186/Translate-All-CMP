@@ -53,6 +53,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
@@ -266,7 +267,6 @@ fun TranslateScreenContent(
                                 IconButton(
                                     onClick = {
                                         scope.launch {
-//                                            dashBoardViewModel.updatePermissionState()
                                             when (dashBoardViewModel.permissionState) {
                                                 PermissionState.Granted -> {
                                                     if (isListening) {
@@ -352,7 +352,7 @@ fun TranslateScreenContent(
                             ) {
                                 IconButton(onClick = {
                                     if (selectedToLang.isActive.not()) {
-                                        showToast(message = "Speech output isn't available for ${historyLocal.toLang}")
+                                        showToast(message = "Speech output isn't available for ${selectedToLang.name}")
                                     } else {
                                         Constant.textToSpeechService.speak(historyLocal.translateText)
                                     }

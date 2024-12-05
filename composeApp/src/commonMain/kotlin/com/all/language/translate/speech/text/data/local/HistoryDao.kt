@@ -27,4 +27,12 @@ interface HistoryDao {
     @Query("DELETE FROM History")
     suspend fun deleteAllHistory(): Int
 
+    @Query("UPDATE History SET isFavorite = false")
+    suspend fun removeAllFavorites()
+
+    @Query("UPDATE History SET isFavorite = false WHERE id = :id")
+    suspend fun removeFavorite(id: Int): Int
+
+    @Query("SELECT * FROM History WHERE isFavorite = true")
+    fun getAllFavorites(): Flow<List<History>>
 }
