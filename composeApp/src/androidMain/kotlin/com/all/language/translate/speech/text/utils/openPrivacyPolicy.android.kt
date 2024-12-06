@@ -8,7 +8,7 @@ actual fun openPrivacyPolicy() {
     val intent =
         Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("https://sites.google.com/view/mobapp-privacy-policy/policy")
+            Uri.parse("https://sites.google.com/view/uplineapps/privacy-policy")
         )
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     context.startActivity(intent)
