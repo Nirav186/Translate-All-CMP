@@ -17,7 +17,7 @@ actual fun shareApp() {
     if (appURL != null) {
         val activityItems: List<Any> = listOf(shareText, appURL)
 
-        val activityVC = UIActivityViewController(activityItems = activityItems.toTypedArray(), applicationActivities = null)
+        val activityVC = UIActivityViewController(activityItems = activityItems, applicationActivities = null)
 
         val currentViewController = UIApplication.sharedApplication.keyWindow?.rootViewController as? UIViewController
         currentViewController?.presentViewController(activityVC, animated = true, completion = null)

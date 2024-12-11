@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -28,6 +27,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             linkerOpts.add("-lsqlite3")
+            linkerOpts.add("AVFoundation")
         }
     }
     
@@ -93,6 +93,9 @@ kotlin {
             api(libs.moko.permissions)
             api(libs.moko.permissions.compose)
         }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
     }
 }
 
@@ -132,10 +135,22 @@ android {
     }
 }
 
-room {
-    schemaDirectory("$projectDir/schemas")
+ksp {
+    arg("room.schemaLocation", "${projectDir}/schemas")
 }
 
 dependencies {
-    ksp(libs.room.compiler)
+
+    // Android
+
+    add("kspAndroid", libs.room.compiler)
+
+    // iOS
+
+    add("kspIosSimulatorArm64", libs.room.compiler)
+
+    add("kspIosX64", libs.room.compiler)
+
+    add("kspIosArm64", libs.room.compiler)
+
 }
