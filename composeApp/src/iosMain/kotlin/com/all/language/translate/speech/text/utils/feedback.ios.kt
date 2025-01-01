@@ -15,12 +15,12 @@ actual fun sendFeedback() {
         return
     }
 
-    val mailComposeVC = MFMailComposeViewController().apply {
-        setMailComposeDelegate(rootViewController as? MFMailComposeViewControllerDelegate)
-        setToRecipients(listOf("manthanjivani.apps@gmail.com"))
-        setSubject("Feedback")
-        setMessageBody("Please write your feedback here.", isHTML = false)
-    }
-
-    rootViewController.presentViewController(mailComposeVC, animated = true, completion = null)
+//    val mailComposeVC = MFMailComposeViewController().apply {
+//        setMailComposeDelegate(rootViewController as? MFMailComposeViewControllerDelegate)
+//        setToRecipients(listOf("manthanjivani.apps@gmail.com"))
+//        setSubject("Feedback")
+//        setMessageBody("Please write your feedback here.", isHTML = false)
+//    }
+//
+//    rootViewController.presentViewController(mailComposeVC, animated = true, completion = null)
 }
